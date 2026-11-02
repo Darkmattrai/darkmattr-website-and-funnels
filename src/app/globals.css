@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+@theme {
+  --color-void: #07070a;
+  --color-ink: #0d0d12;
+  --color-panel: #13131a;
+  --color-line: rgb(255 255 255 / 0.09);
+  --color-mist: #8d8d9c;
+  --color-bone: #efeee9;
+  --color-flare: #ff5b2e;
+  --color-plasma: #8b5cff;
+  --color-ion: #5ce1ff;
+
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+:root {
+  color-scheme: dark;
+  --gutter: clamp(1rem, 3.2vw, 2.875rem);
+}
+
+html {
+  background: var(--color-void);
+  color: var(--color-bone);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+  background: var(--color-void);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection { background: var(--color-flare); color: var(--color-void); }
+
+/* Custom cursor hides native one only on fine pointers */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
+}
+
+/* Film grain overlay */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 1.2s steps(6) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -1%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Gradient-filled display type */
+.text-gradient {
+  background: linear-gradient(100deg, #efeee9 0%, #f3c9b3 28%, #ff5b2e 55%, #8b5cff 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sheen 9s var(--ease-in-out-quint) infinite alternate;
+}
+.text-gradient-cool {
+  background: linear-gradient(100deg, #efeee9 0%, #b9a6ff 40%, #8b5cff 70%, #5ce1ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes sheen { to { background-position: 100% 0; } }
+
+.display {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 0.86;
+  font-variation-settings: "wdth" 100, "opsz" 96;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-mist);
+}
+
+.container-x { padding-inline: var(--gutter); }
+
+/* Marquee */
+.marquee-track { animation: marquee var(--marquee-speed, 40s) linear infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* Orbit animation for the universe section */
+@keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes counter-orbit { to { transform: rotate(-360deg); } }
+
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(74 222 128 / 0.6); }
+  50% { box-shadow: 0 0 0 6px rgb(74 222 128 / 0); }
+}
+
+input, textarea, select { font: inherit; }
+
+:focus-visible { outline: 2px solid var(--color-flare); outline-offset: 3px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@keyframes scrollcue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
