@@ -1,6 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
+import trophy from "@/assets/clay/trophy.webp";
 import { useRef, useState, useSyncExternalStore, type FormEvent, type KeyboardEvent } from "react";
 import { MAX_ANSWER_CHARS, confirmStep, questions, success, type Question } from "@/content/hiring";
 import { site } from "@/content/site";
@@ -14,7 +16,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 const subscribeNoop = () => () => {};
 const useMounted = () => useSyncExternalStore(subscribeNoop, () => true, () => false);
 
-const titleCls = "text-2xl font-bold leading-snug outline-none md:text-[1.75rem]";
+const titleCls = "text-[1.45rem] font-extrabold leading-snug outline-none md:text-[1.7rem]";
 
 export function Survey() {
   const mounted = useMounted();
@@ -28,7 +30,7 @@ function SurveyInner() {
   if (!applicant) {
     return (
       <div>
-        <p className="mb-6 text-bone/75">We couldn&rsquo;t find your details from step one. Start here, it takes a minute.</p>
+        <p className="mb-6 font-semibold text-bone/85">We couldn&rsquo;t find your details from step one. Start here, it takes a minute.</p>
         <ApplyStepOne compact onComplete={setApplicant} />
       </div>
     );
@@ -134,12 +136,12 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
   if (status === "done") {
     return (
       <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="flex min-h-[420px] flex-col items-center justify-center text-center">
-        <span className="grid size-16 place-items-center rounded-full bg-gradient-to-br from-flare to-plasma text-2xl font-extrabold text-void">✓</span>
-        <h2 className="display mt-8 text-4xl outline-none md:text-5xl" tabIndex={-1} ref={(el) => el?.focus()}>
+        <Image src={trophy} alt="" sizes="200px" className="clay-bob h-36 w-auto" />
+        <h2 className="clay-type mt-6 text-[2.6rem] outline-none md:text-[3.2rem]" tabIndex={-1} ref={(el) => el?.focus()}>
           {success.title}
         </h2>
-        <p className="mt-4 max-w-md text-lg text-bone/80">{success.body}</p>
-        <a href={site.url} className="dm-btn-dark mt-8">
+        <p className="mt-4 max-w-md text-lg font-medium text-bone/85">{success.body}</p>
+        <a href={site.url} className="clay-btn clay-btn-light mt-8">
           Back to Dark Mattr
         </a>
       </motion.div>
@@ -153,17 +155,17 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
       </p>
       {/* progress */}
       <div className="flex items-center justify-between">
-        <span id="apply-progress-label" className="dm-eyebrow">
+        <span id="apply-progress-label" className="text-sm font-extrabold uppercase tracking-[0.12em] text-[#b4510a]">
           {atConfirm ? "Last step · Confirm your details" : `Question ${index + 1} of ${total}`}
         </span>
         {index > 0 && (
-          <button type="button" onClick={() => go(-1)} className="-m-3.5 p-3.5 text-sm font-semibold text-bone/70 transition-colors hover:text-flare">
+          <button type="button" onClick={() => go(-1)} className="-m-3.5 p-3.5 text-sm font-bold text-bone/80 underline-offset-4 hover:underline">
             ← Back
           </button>
         )}
       </div>
       <div
-        className="mt-4 h-2 overflow-hidden rounded-full bg-black/40 shadow-[inset_1px_1px_3px_rgba(0,0,0,0.6)]"
+        className="mt-4 h-3.5 overflow-hidden rounded-full bg-[#efe3cf] shadow-[inset_0_2px_4px_rgba(42,31,61,0.18)]"
         role="progressbar"
         aria-labelledby="apply-progress-label"
         aria-valuemin={0}
@@ -172,7 +174,7 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
         aria-valuetext={atConfirm ? "Last step: confirm your details" : `Question ${index + 1} of ${total}`}
       >
         <div
-          className="h-full rounded-full bg-gradient-to-r from-flare to-plasma transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+          className="h-full rounded-full bg-[radial-gradient(120%_160%_at_30%_10%,#ffb36b_0%,#ff8b2b_50%,#c9611a_140%)] shadow-[inset_0_2px_0_rgba(255,255,255,0.35)] transition-transform duration-500 ease-[steps(5)]"
           style={{ transform: `scaleX(${(index + 1) / (total + 1)})`, transformOrigin: "left" }}
         />
       </div>
@@ -202,16 +204,12 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
                     return (
                       <label
                         key={opt}
-                        className={`dm-raised flex cursor-pointer items-center gap-4 rounded-2xl px-5 py-4 text-lg font-semibold transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-flare ${
-                          selected ? "!border-flare/80 text-flare" : "hover:!border-white/20"
+                        className={`clay-card flex cursor-pointer items-center gap-4 px-5 py-4 text-lg font-bold transition-transform has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-plum ${
+                          selected ? "-rotate-1 ring-[3px] ring-tangerine" : "hover:-translate-y-0.5"
                         }`}
                       >
                         <input type="radio" name={q.id} value={opt} checked={selected} onChange={() => setAnswer(q.id, opt)} className="sr-only" />
-                        <span
-                          className={`grid size-9 shrink-0 place-items-center rounded-full text-sm font-extrabold ${
-                            selected ? "bg-gradient-to-br from-flare to-plasma text-void" : "border border-line text-bone/80"
-                          }`}
-                        >
+                        <span className={`clay-ball ${selected ? "" : "clay-ball-sun"} size-10 shrink-0 text-xl`}>
                           {i + 1}
                         </span>
                         {opt}
@@ -231,10 +229,10 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
                 <h2 ref={(el) => void (headingRef.current = el)} tabIndex={-1} className={titleCls}>
                   {q.title}
                 </h2>
-                {q.help && <p className="mt-2 text-bone/70">{q.help}</p>}
+                {q.help && <p className="mt-2 font-medium text-bone/80">{q.help}</p>}
                 <label
-                  className={`mt-8 flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-flare ${
-                    file ? "border-flare/70 bg-flare/5" : "border-white/20 hover:border-white/40"
+                  className={`mt-8 flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[28px] border-[3px] border-dashed px-6 py-12 text-center transition-colors has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-plum ${
+                    file ? "border-tangerine bg-[#fff1e2]" : "border-[#d9c8ad] bg-[#fffaf1] hover:border-[#c4b090]"
                   }`}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => {
@@ -243,19 +241,19 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
                   }}
                 >
                   <input type="file" accept={q.accept} className="sr-only" onChange={(e) => pickFile(e.target.files?.[0] ?? null, q)} />
-                  <span className="grid size-12 place-items-center rounded-full bg-gradient-to-br from-flare to-plasma text-xl font-extrabold text-void">↑</span>
+                  <span className="clay-ball clay-ball-sun size-14 text-2xl">↑</span>
                   {file ? (
-                    <span className="text-lg font-semibold">
-                      {file.name} <span className="font-normal text-bone/70">· {(file.size / 1024 / 1024).toFixed(1)} MB</span>
+                    <span className="text-lg font-bold">
+                      {file.name} <span className="font-medium text-bone/75">· {(file.size / 1024 / 1024).toFixed(1)} MB</span>
                     </span>
                   ) : (
                     <span className="text-lg">
-                      Drop your resume here or <span className="font-semibold text-flare underline underline-offset-4">browse</span>
+                      Drop your resume here or <span className="font-bold underline underline-offset-4">browse</span>
                     </span>
                   )}
                 </label>
                 {fileError && (
-                  <p role="alert" className="mt-3 text-sm text-danger">
+                  <p role="alert" className="mt-3 text-sm font-semibold text-danger">
                     {fileError}
                   </p>
                 )}
@@ -267,7 +265,7 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
                 <h2 ref={(el) => void (headingRef.current = el)} tabIndex={-1} className={titleCls}>
                   {confirmStep.title}
                 </h2>
-                <p className="mt-2 text-bone/75">{confirmStep.sub}</p>
+                <p className="mt-2 font-medium text-bone/85">{confirmStep.sub}</p>
                 <div className="mt-8 grid gap-6 sm:grid-cols-2">
                   <Field label="First name" required autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} error={firstName.trim().length >= 2 ? undefined : "Please add your first name."} />
                   <Field label="Email" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} error={EMAIL_RE.test(email.trim()) ? undefined : "Please add a valid email address."} />
@@ -279,7 +277,7 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
                   </div>
                   <input type="text" name="fax" tabIndex={-1} autoComplete="off" value={fax} onChange={(e) => setFax(e.target.value)} className="absolute -left-[9999px] h-0 w-0 opacity-0" aria-hidden />
                 </div>
-                <p className="mt-6 text-xs text-bone/60">{confirmStep.retention}</p>
+                <p className="mt-6 text-xs font-semibold text-bone/75">{confirmStep.retention}</p>
               </div>
             )}
           </motion.div>
@@ -287,25 +285,25 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
       </div>
 
       {status === "error" && (
-        <p role="alert" className="mt-6 rounded-xl border border-danger/40 bg-danger/10 p-4 text-sm">
+        <p role="alert" className="mt-6 rounded-2xl border-2 border-danger/40 bg-danger/10 p-4 text-sm font-semibold">
           {error}
         </p>
       )}
 
       <div className="mt-8">
         {atConfirm ? (
-          <button key="submit" type="submit" disabled={status === "sending" || !confirmValid || !confirmReady} className="dm-btn w-full text-lg">
+          <button key="submit" type="submit" disabled={status === "sending" || !confirmValid || !confirmReady} className="clay-btn w-full">
             {status === "sending" ? "Sending…" : confirmStep.button}
             <span aria-hidden>→</span>
           </button>
         ) : (
-          <button key="next" type="button" onClick={() => go(1)} disabled={!canContinue} className="dm-btn w-full text-lg">
+          <button key="next" type="button" onClick={() => go(1)} disabled={!canContinue} className="clay-btn w-full">
             {index === total - 1 ? "Review My Details" : "Continue"}
             <span aria-hidden>→</span>
           </button>
         )}
         {!atConfirm && q?.kind === "text" && (
-          <p className="mt-3 text-center text-xs text-bone/60">{q.multiline ? "Ctrl + Enter to continue" : "Enter to continue"}</p>
+          <p className="mt-4 text-center text-xs font-semibold text-bone/75">{q.multiline ? "Ctrl + Enter to continue" : "Enter to continue"}</p>
         )}
       </div>
     </form>
@@ -335,11 +333,11 @@ function TextQuestion({
         {q.title}
       </label>
       {q.help && (
-        <p id={`${q.id}-help`} className="mt-2 text-bone/70">
+        <p id={`${q.id}-help`} className="mt-2 font-medium text-bone/80">
           {q.help}
         </p>
       )}
-      <div className="dm-field mt-6">
+      <div className="clay-field mt-6">
         {q.multiline ? (
           <textarea
             id={q.id}
@@ -352,7 +350,7 @@ function TextQuestion({
             placeholder={q.placeholder}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={onKey}
-            className="dm-control min-h-36 [field-sizing:content]"
+            className="clay-control min-h-36 [field-sizing:content]"
           />
         ) : (
           <input
@@ -365,7 +363,7 @@ function TextQuestion({
             placeholder={q.placeholder}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={onKey}
-            className="dm-control"
+            className="clay-control"
           />
         )}
       </div>

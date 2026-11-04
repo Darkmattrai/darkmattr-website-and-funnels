@@ -23,22 +23,22 @@ export function Field({
   const id = useId();
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-bone/85">
+      <label htmlFor={id} className="block text-sm font-bold">
         {label}
         {required && <span className="text-flare"> *</span>}
       </label>
-      <div className="dm-field mt-2" data-invalid={error ? "" : undefined}>
+      <div className="clay-field mt-2" data-invalid={error ? "" : undefined}>
         <input
           id={id}
           required={required}
           aria-invalid={Boolean(error)}
           aria-describedby={error || hint ? `${id}-msg` : undefined}
           {...props}
-          className="dm-control"
+          className="clay-control"
         />
       </div>
       {(error || hint) && (
-        <p id={`${id}-msg`} role={error ? "alert" : undefined} className={`mt-2 text-xs ${error ? "text-danger" : "text-bone/60"}`}>
+        <p id={`${id}-msg`} role={error ? "alert" : undefined} className={`mt-2 text-xs font-semibold ${error ? "text-danger" : "text-bone/75"}`}>
           {error || hint}
         </p>
       )}
@@ -146,11 +146,11 @@ export function ApplyStepOne({
   };
 
   return (
-    <form ref={formRef} onSubmit={submit} noValidate className={compact ? "" : "dm-raised rounded-[1.5rem] p-6 sm:p-8 md:p-10"}>
+    <form ref={formRef} onSubmit={submit} noValidate className={compact ? "" : "clay-card p-6 sm:p-8 md:p-10"}>
       <div className="mb-8">
-        <p className="dm-eyebrow">Step 1 of 2 · Your details</p>
-        <h3 className="mt-3 text-2xl font-extrabold uppercase md:text-[1.75rem]">{stepOne.title}</h3>
-        <p className="mt-2 text-bone/75">{stepOne.sub}</p>
+        <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#b4510a]">Step 1 of 2 · Your details</p>
+        <h3 className="clay-type clay-type-sm mt-2 text-[2rem] md:text-[2.35rem]">{stepOne.title}</h3>
+        <p className="mt-2 font-medium text-bone/85">{stepOne.sub}</p>
       </div>
       <div className="grid gap-6 sm:grid-cols-2">
         <Field
@@ -207,16 +207,16 @@ export function ApplyStepOne({
       </div>
 
       {status === "error" && (
-        <p role="alert" className="mt-6 rounded-xl border border-danger/40 bg-danger/10 p-4 text-sm">
+        <p role="alert" className="mt-6 rounded-2xl border-2 border-danger/40 bg-danger/10 p-4 text-sm font-semibold">
           {error}
         </p>
       )}
 
-      <button type="submit" disabled={status === "sending"} className="dm-btn mt-8 w-full text-lg disabled:cursor-wait">
+      <button type="submit" disabled={status === "sending"} className="clay-btn mt-9 w-full disabled:cursor-wait">
         {status === "sending" ? "Saving…" : stepOne.button}
         <span aria-hidden>→</span>
       </button>
-      <p className="mt-4 text-center text-xs text-bone/60">No spam. We only use this to get back to you about the role.</p>
+      <p className="mt-5 text-center text-xs font-semibold text-bone/75">No spam. We only use this to get back to you about the role.</p>
     </form>
   );
 }

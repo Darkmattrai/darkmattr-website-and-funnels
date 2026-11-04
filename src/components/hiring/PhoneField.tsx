@@ -55,16 +55,16 @@ export function PhoneField({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-bone/85">
+      <label htmlFor={id} className="block text-sm font-bold">
         {label}
         {required && <span className="text-flare"> *</span>}
       </label>
-      <div className="dm-field mt-2" data-invalid={invalid ? "" : undefined}>
+      <div className="clay-field mt-2" data-invalid={invalid ? "" : undefined}>
         {/* Visible: "LB +961". The real select (with full country names) sits on top, transparent. */}
-        <div className="relative shrink-0 border-r border-line">
-          <span aria-hidden className="flex h-full items-center gap-2 py-[0.9rem] pl-4 pr-3 text-base font-semibold">
+        <div className="relative shrink-0 border-r-2 border-[#e6d6be]">
+          <span aria-hidden className="flex h-full items-center gap-2 py-[0.85rem] pl-4 pr-3 text-base font-bold">
             {value.country} +{current?.callingCode}
-            <svg viewBox="0 0 12 12" className="size-3 text-flare" aria-hidden>
+            <svg viewBox="0 0 12 12" className="size-3 text-bone" aria-hidden>
               <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.8" />
             </svg>
           </span>
@@ -93,10 +93,10 @@ export function PhoneField({
           placeholder={value.country === "LB" ? "71 097 342" : "Your number"}
           aria-invalid={invalid}
           aria-describedby={`${id}-hint`}
-          className="dm-control"
+          className="clay-control"
         />
       </div>
-      <p id={`${id}-hint`} className={`mt-2 text-xs ${invalid ? "text-danger" : value.valid ? "text-flare" : "text-bone/60"}`} aria-live="polite">
+      <p id={`${id}-hint`} className={`mt-2 text-xs font-semibold ${invalid ? "text-danger" : value.valid ? "text-[#3f7f27]" : "text-bone/75"}`} aria-live="polite">
         {hint}
       </p>
     </div>
