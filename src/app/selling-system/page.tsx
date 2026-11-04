@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import asSeenOn from "@/assets/brand/as-seen-on.png";
-import foundersClay from "@/assets/brand/founders-clay.webp";
 import founders from "@/assets/brand/founders.jpg";
 import shopifyPartner from "@/assets/brand/shopify-partner.png";
 import tiktokPartner from "@/assets/brand/tiktok-partner.png";
 import { ApplyStepOne } from "@/components/hiring/ApplyStepOne";
 import { BrandLogo } from "@/components/hiring/BrandLogo";
+import { FusionStage } from "@/components/hiring/FusionStage";
 import { FadeUp, RevealText, SectionLabel } from "@/components/Reveal";
 import { faq, faqTitle, hiring, process, roles, why } from "@/content/hiring";
 import { site } from "@/content/site";
@@ -47,10 +47,10 @@ export default function SellingSystemHiring() {
     <>
       <HiringNav />
       <main>
-        {/* Hero: the founders in clay stand in the old hero glow */}
-        <section className="container-x relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-40">
-          <div className="relative grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-6">
-            <div>
+        {/* Hero: scrolling makes the clay founders turn, reach and fuse beside the headline */}
+        <section className="container-x relative overflow-x-clip pb-16 pt-32 md:pb-24 md:pt-40">
+          <div className="grid lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-6">
+            <div className="lg:col-start-1 lg:row-start-1">
               <SectionLabel>{hiring.eyebrow}</SectionLabel>
               <h1 className="display mt-8 text-[clamp(3rem,7.4vw,8.25rem)]">
                 <RevealText text={hiring.headline.lineOne} as="span" className="block" />
@@ -69,35 +69,23 @@ export default function SellingSystemHiring() {
                 </div>
               </FadeUp>
             </div>
-            <figure className="relative mx-auto w-full max-w-[640px]">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute left-1/2 top-[42%] aspect-square w-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,91,46,0.24),rgba(255,91,46,0.09)_42%,rgba(139,92,255,0.05)_68%,transparent)]"
-              />
-              <div aria-hidden className="pointer-events-none absolute inset-x-[4%] bottom-[-4%] h-[10%] rounded-[50%] bg-black/70 blur-xl" />
-              <Image
-                src={foundersClay}
-                alt={hiring.mascots.alt}
-                priority
-                sizes="(min-width: 1024px) 640px, 92vw"
-                className="clay-idle relative h-auto w-full"
-              />
-              <figcaption className="label relative mt-8 text-center">{hiring.mascots.caption}</figcaption>
-            </figure>
+            <div className="mt-12 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0">
+              <FusionStage alt={hiring.mascots.alt} caption={hiring.mascots.caption} />
+            </div>
+            <div className="lg:col-start-1 lg:row-start-2 lg:pb-[16svh]">
+              <FadeUp delay={0.45} className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:mt-16">
+                {hiring.proof.map((p) => (
+                  <div key={p.label} className="flex items-baseline gap-3 border-l border-line pl-4 sm:block">
+                    <div className="display text-gradient text-3xl md:text-4xl">{p.value}</div>
+                    <p className="text-xs text-bone/55 sm:mt-2 md:text-sm">{p.label}</p>
+                  </div>
+                ))}
+              </FadeUp>
+              <p className="display mt-16 max-w-[28ch] border-t border-line pt-12 text-[clamp(1.6rem,2.9vw,2.75rem)] !leading-[1.08] text-bone/90 md:mt-24">
+                {hiring.about}
+              </p>
+            </div>
           </div>
-          <FadeUp delay={0.45} className="relative mt-14 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:mt-16 lg:max-w-3xl">
-            {hiring.proof.map((p) => (
-              <div key={p.label} className="flex items-baseline gap-3 border-l border-line pl-4 sm:block">
-                <div className="display text-gradient text-3xl md:text-4xl">{p.value}</div>
-                <p className="text-xs text-bone/55 sm:mt-2 md:text-sm">{p.label}</p>
-              </div>
-            ))}
-          </FadeUp>
-        </section>
-
-        {/* About */}
-        <section className="container-x border-t border-line py-16 md:py-24">
-          <p className="display max-w-[28ch] text-[clamp(1.6rem,3.6vw,3.2rem)] !leading-[1.08] text-bone/90">{hiring.about}</p>
         </section>
 
         {/* Roles */}

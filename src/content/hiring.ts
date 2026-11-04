@@ -29,7 +29,7 @@ export const hiring = {
     { value: "Uncapped", label: "Commission on every deal" },
   ],
   mascots: {
-    alt: "Clay figures of Aal and Mo, the founders of Dark Mattr, pointing at each other",
+    alt: "Clay figures of Aal and Mo, the founders of Dark Mattr, turning to each other and touching fingertips as you scroll",
     caption: "Aal & Mo, our founders, in clay",
   },
   founders: {
