@@ -1,7 +1,7 @@
 /**
  * ─────────────────────────────────────────────────────────────
  *  THE SELLING SYSTEM — HIRING FUNNEL CONTENT
- *  Landing copy, the three roles, the 8 survey questions and the
+ *  Hero copy, the three roles, the 8 survey questions and the
  *  confirmation step. Edit here; the components pick it up.
  *
  *  Anything marked  // PLACEHOLDER  must be replaced before launch.
@@ -17,51 +17,20 @@ export const hiring = {
   // PLACEHOLDER: confirm what The Selling System is in one line.
   about:
     "The Selling System is Dark Mattr's sales floor. Our lead-generation engine fills the calendar; setters, closers and outbound specialists turn it into revenue, and get paid for every deal.",
-  eyebrow: "The Selling System · Hiring now · Remote",
-  headline: { lineOne: "You sell.", lineTwo: "We bring the\nbuyers.", accent: "buyers." },
-  sub: "Three seats open: DM/Phone Setter, Closer and Outbound Sales Specialist. If you can hold a conversation and close a loop, we want to hear from you.",
-  primaryCta: "Start your application",
-  secondaryCta: "See the roles",
-  proof: [
-    // PLACEHOLDER: confirm these perks.
-    { value: "100%", label: "Remote, work from anywhere" },
-    { value: "Weekly", label: "Call reviews and coaching" },
-    { value: "Uncapped", label: "Commission on every deal" },
+  eyebrow: "Dark Mattr · The Selling System · Hiring now · Remote",
+  headline: { lineOne: "Stop chasing cold leads.", lineTwo: "Close buyers who\nasked to talk.", accent: "asked to talk." },
+  sub: "Dark Mattr's lead engine has generated $23,000,000+ for our clients. Now we're hiring the setters, closers and outbound reps who turn that pipeline into revenue, fully remote and paid on every deal you touch.",
+  // PLACEHOLDER: confirm these perks.
+  chips: [
+    "Warm inbound from our own ad engine",
+    "Uncapped commission on every deal",
+    "Weekly call reviews with our sales lead",
+    "A real path: setter to closer to lead",
   ],
-  /** The hero panel: how a deal moves through the system, and where each seat sits. */
-  system: {
-    label: "How a deal moves",
-    steps: [
-      { title: "Buyers come in", body: "Our ads and content bring the inbound. Outbound finds the rest.", seat: "Outbound Sales Specialist" },
-      { title: "Setters book the call", body: "A reply within minutes, a quick qualify, a call on the calendar.", seat: "DM/Phone Setter" },
-      { title: "Closers close", body: "Calls with people who asked to talk.", seat: "Closer" },
-      { title: "You get paid", body: "Commission on every deal you touch.", seat: "" },
-    ],
-    cta: "Find your seat",
-  },
-  founders: {
-    label: "Meet the founders",
-    title: "The team behind\nthe numbers.",
-    accent: "numbers.",
-    body: "Aal & Mo built Dark Mattr from Paris into an agency with $23,000,000+ in revenue generated. Now they're building the sales team behind it.",
-    cta: "Apply to join the team",
-    // From darkmattr.co (published results). Keep in sync with the main site.
-    stats: [
-      { label: "Total revenue generated", value: "$23,000,000+" },
-      { label: "Average ROAS", value: "3.6" },
-      { label: "Battle-tested strategies", value: "174" },
-      { label: "Eyeballs grabbed", value: "71,000,000+" },
-    ],
-  },
-  rolesIntro: { label: "Three seats open", title: "Pick the seat\nthat fits you.", accent: "you." },
-  apply: {
-    label: "Apply",
-    title: "Two steps.\nTen minutes.",
-    accent: "minutes.",
-    body: "Leave your details now. The survey comes next: eight questions about how you actually sell, one at a time, plus your resume.",
-    steps: ["Your details, one minute", "The survey, eight questions", "A call with our sales lead"],
-  },
-  trust: { seenOn: "As seen on", partners: "Partners" },
+  primaryCta: "Claim your seat",
+  navCta: "Apply now",
+  seats: "3 seats open: Setter · Closer · Outbound",
+  riskReversal: "Takes 60 seconds to start. No CV until step 2. We reply within two business days.",
 };
 
 export type Role = {
@@ -102,36 +71,6 @@ export const roles: Role[] = [
     weLookFor: ["Hunter mindset and real resilience", "Fluency with outbound tools and CRMs", "Writing that gets replies"],
     comp: "Base + commission on booked and closed", // PLACEHOLDER
   },
-];
-
-export const why = {
-  title: "Why sell here",
-  heading: { lead: "Sell what people", accent: "already want." },
-  points: [
-    { title: "Leads from our own engine", body: "Dark Mattr is a lead-generation agency. You sell to people who asked to talk, not a phone book." },
-    { title: "Scripts, training, call reviews", body: "Weekly reviews with the sales lead. You get better every week or we're not doing our job." },
-    { title: "Paid on results", body: "Commission on every deal you touch, paid out on a fixed schedule." }, // PLACEHOLDER: payout schedule
-    { title: "A path, not a seat", body: "Setters become closers. Closers become team leads. We promote from inside first." },
-  ],
-};
-
-export const process = {
-  title: "How hiring works",
-  steps: [
-    { n: "01", title: "Apply", body: "Leave your details. Takes about a minute.", time: "1 min" },
-    { n: "02", title: "Survey", body: "Eight questions about how you sell, one at a time, plus your resume.", time: "10 min" },
-    { n: "03", title: "Call", body: "A 20-minute call with our sales lead. You'll do a short roleplay.", time: "20 min" },
-    { n: "04", title: "Trial", body: "A paid trial week on real leads. Then we decide together.", time: "1 week" }, // PLACEHOLDER
-  ],
-};
-
-export const faqTitle = "Before you ask";
-
-export const faq = [
-  { q: "Is this remote?", a: "Yes, fully. You need a quiet place, a stable connection and a laptop. Our calls run mostly in European and Middle East hours." }, // PLACEHOLDER: hours
-  { q: "Do I need experience?", a: "Closers and outbound specialists: yes, with numbers to show. Setters: we'd rather see hunger and speed than a long CV." },
-  { q: "How are you paid?", a: "Setters get a base plus a fee per qualified booked call; closers earn commission per closed deal; outbound earns on both. Details on the call." }, // PLACEHOLDER
-  { q: "How fast do you reply?", a: "Within two business days. If you're a fit we'll book the call straight away." },
 ];
 
 /** Step 1: contact details. Has its own webhook. */

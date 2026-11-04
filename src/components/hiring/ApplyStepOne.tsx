@@ -56,11 +56,14 @@ export function ApplyStepOne({
   nextHref = "/selling-system/apply",
   onComplete,
   compact = false,
+  titleId,
 }: {
   nextHref?: string;
   /** When given, called instead of navigating (used inside the survey page). */
   onComplete?: (applicant: Applicant) => void;
   compact?: boolean;
+  /** id for the heading, so a dialog can point aria-labelledby at it. */
+  titleId?: string;
 }) {
   const router = useRouter();
   const mounted = useMounted();
@@ -149,10 +152,10 @@ export function ApplyStepOne({
     <form ref={formRef} onSubmit={submit} noValidate className={compact ? "" : "rounded-[2rem] border border-line bg-void/70 p-6 backdrop-blur-md sm:p-8 md:p-10"}>
       <div className="mb-8">
         <p className="label">Step 1 of 2 · Your details</p>
-        <h3 className="mt-3 text-2xl font-medium tracking-tight md:text-3xl">{stepOne.title}</h3>
+        <h3 id={titleId} className="mt-3 text-2xl font-medium tracking-tight md:text-3xl">{stepOne.title}</h3>
         <p className="mt-2 text-bone/60">{stepOne.sub}</p>
       </div>
-      <div className="grid gap-7 sm:grid-cols-2">
+      <div className="relative grid gap-7 sm:grid-cols-2">
         <Field
           label="First name"
           required
