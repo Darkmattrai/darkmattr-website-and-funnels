@@ -19,7 +19,15 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Join The Selling System · Setters, Closers, Outbound",
   description: `Now hiring DM/Phone Setters, Closers and Outbound Sales Specialists at Dark Mattr. Fully remote. ${hiring.sub}`,
-  openGraph: { title: "You sell. We bring the buyers. · Dark Mattr is hiring", description: hiring.subhead },
+  alternates: { canonical: "/selling-system" },
+  openGraph: {
+    title: "You sell. We bring the buyers. · Dark Mattr is hiring",
+    description: hiring.subhead,
+    url: "/selling-system",
+    siteName: site.name,
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title: "You sell. We bring the buyers. · Dark Mattr is hiring", description: hiring.subhead },
 };
 
 const NAV = [

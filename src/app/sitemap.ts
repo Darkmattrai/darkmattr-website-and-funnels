@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/content/site";
+import { hiringOnly, origin } from "@/lib/origin";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [{ url: site.url, changeFrequency: "monthly", priority: 1 }];
+  const hiring = { url: `${origin}/selling-system`, changeFrequency: "weekly" as const, priority: hiringOnly ? 1 : 0.8 };
+  return hiringOnly ? [hiring] : [{ url: origin, changeFrequency: "monthly", priority: 1 }, hiring];
 }

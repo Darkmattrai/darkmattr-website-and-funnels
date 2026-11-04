@@ -1,3 +1,4 @@
+import type { Viewport } from "next";
 import { Chewy, Montserrat } from "next/font/google";
 
 /**
@@ -6,6 +7,9 @@ import { Chewy, Montserrat } from "next/font/google";
  */
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
 const chewy = Chewy({ subsets: ["latin"], weight: "400", variable: "--font-chewy", display: "swap" });
+
+/** Putty browser chrome on phones, instead of the agency site's near-black. */
+export const viewport: Viewport = { themeColor: "#f7efe2" };
 
 export default function SellingSystemLayout({ children }: { children: React.ReactNode }) {
   return (

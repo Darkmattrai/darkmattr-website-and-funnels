@@ -4,6 +4,7 @@ import { MotionConfig } from "motion/react";
 import { SiteChrome } from "@/components/SiteChrome";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { site } from "@/content/site";
+import { origin } from "@/lib/origin";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
@@ -17,14 +18,14 @@ const instrument = Instrument_Serif({
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(origin),
   title: { default: "Dark Mattr — The invisible force behind your pipeline", template: "%s · Dark Mattr" },
   description: site.description,
   keywords: ["lead generation agency", "paid ads agency", "funnels", "cold email", "CRM automation", "performance marketing"],
   openGraph: {
     title: "Dark Mattr — The invisible force behind your pipeline",
     description: site.description,
-    url: site.url,
+    url: "/",
     siteName: site.name,
     type: "website",
   },
