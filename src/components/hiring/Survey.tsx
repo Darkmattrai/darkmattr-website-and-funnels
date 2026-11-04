@@ -1,9 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import Image from "next/image";
 import { useRef, useState, useSyncExternalStore, type FormEvent, type KeyboardEvent } from "react";
-import foundersClay from "@/assets/brand/founders-clay.webp";
 import { MAX_ANSWER_CHARS, confirmStep, questions, success, type Question } from "@/content/hiring";
 import { site } from "@/content/site";
 import { formatPhone, type PhoneResult } from "@/lib/phone";
@@ -134,7 +132,7 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
   if (status === "done") {
     return (
       <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="flex min-h-[420px] flex-col items-start justify-center">
-        <Image src={foundersClay} alt="" sizes="288px" className="clay-idle h-auto w-60 sm:w-72" />
+        <span className="grid size-16 place-items-center rounded-full bg-flare text-2xl text-void">✓</span>
         <h2 className="display mt-8 text-5xl outline-none" tabIndex={-1} ref={(el) => el?.focus()}>
           {success.title}
         </h2>

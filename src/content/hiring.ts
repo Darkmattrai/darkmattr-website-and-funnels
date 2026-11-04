@@ -28,14 +28,21 @@ export const hiring = {
     { value: "Weekly", label: "Call reviews and coaching" },
     { value: "Uncapped", label: "Commission on every deal" },
   ],
-  mascots: {
-    alt: "Clay figures of Aal and Mo, the founders of Dark Mattr, turning to each other and touching fingertips as you scroll",
-    caption: "Aal & Mo, our founders, in clay",
+  /** The hero panel: how a deal moves through the system, and where each seat sits. */
+  system: {
+    label: "How a deal moves",
+    steps: [
+      { title: "Buyers come in", body: "Our ads and content bring the inbound. Outbound finds the rest.", seat: "Outbound Sales Specialist" },
+      { title: "Setters book the call", body: "A reply within minutes, a quick qualify, a call on the calendar.", seat: "DM/Phone Setter" },
+      { title: "Closers close", body: "Calls with people who asked to talk.", seat: "Closer" },
+      { title: "You get paid", body: "Commission on every deal you touch.", seat: "" },
+    ],
+    cta: "Find your seat",
   },
   founders: {
     label: "Meet the founders",
-    title: "The real ones\nbehind the clay.",
-    accent: "clay.",
+    title: "The team behind\nthe numbers.",
+    accent: "numbers.",
     body: "Aal & Mo built Dark Mattr from Paris into an agency with $23,000,000+ in revenue generated. Now they're building the sales team behind it.",
     cta: "Apply to join the team",
     // From darkmattr.co (published results). Keep in sync with the main site.

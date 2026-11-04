@@ -6,7 +6,6 @@ import shopifyPartner from "@/assets/brand/shopify-partner.png";
 import tiktokPartner from "@/assets/brand/tiktok-partner.png";
 import { ApplyStepOne } from "@/components/hiring/ApplyStepOne";
 import { BrandLogo } from "@/components/hiring/BrandLogo";
-import { FusionStage } from "@/components/hiring/FusionStage";
 import { FadeUp, RevealText, SectionLabel } from "@/components/Reveal";
 import { faq, faqTitle, hiring, process, roles, why } from "@/content/hiring";
 import { site } from "@/content/site";
@@ -47,10 +46,10 @@ export default function SellingSystemHiring() {
     <>
       <HiringNav />
       <main>
-        {/* Hero: scrolling makes the clay founders turn, reach and fuse beside the headline */}
-        <section className="container-x relative overflow-x-clip pb-16 pt-32 md:pb-24 md:pt-40">
-          <div className="grid lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-6">
-            <div className="lg:col-start-1 lg:row-start-1">
+        {/* Hero */}
+        <section className="container-x relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-40">
+          <div className="relative grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
+            <div>
               <SectionLabel>{hiring.eyebrow}</SectionLabel>
               <h1 className="display mt-8 text-[clamp(3rem,7.4vw,8.25rem)]">
                 <RevealText text={hiring.headline.lineOne} as="span" className="block" />
@@ -69,23 +68,59 @@ export default function SellingSystemHiring() {
                 </div>
               </FadeUp>
             </div>
-            <div className="mt-12 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0">
-              <FusionStage alt={hiring.mascots.alt} caption={hiring.mascots.caption} />
-            </div>
-            <div className="lg:col-start-1 lg:row-start-2 lg:pb-[16svh]">
-              <FadeUp delay={0.45} className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:mt-16">
-                {hiring.proof.map((p) => (
-                  <div key={p.label} className="flex items-baseline gap-3 border-l border-line pl-4 sm:block">
-                    <div className="display text-gradient text-3xl md:text-4xl">{p.value}</div>
-                    <p className="text-xs text-bone/55 sm:mt-2 md:text-sm">{p.label}</p>
-                  </div>
-                ))}
-              </FadeUp>
-              <p className="display mt-16 max-w-[28ch] border-t border-line pt-12 text-[clamp(1.6rem,2.9vw,2.75rem)] !leading-[1.08] text-bone/90 md:mt-24">
-                {hiring.about}
-              </p>
-            </div>
+
+            {/* How a deal moves: where each seat sits in the system */}
+            <FadeUp delay={0.2} className="relative mx-auto w-full max-w-[560px] lg:mr-0">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,91,46,0.16),rgba(139,92,255,0.07)_55%,transparent)]"
+              />
+              <div className="relative rounded-[2rem] border border-line bg-panel/70 p-7 backdrop-blur-md md:p-9">
+                <SectionLabel>{hiring.system.label}</SectionLabel>
+                <ol className="mt-8">
+                  {hiring.system.steps.map((s, i, all) => {
+                    const last = i === all.length - 1;
+                    return (
+                      <li key={s.title} className="relative flex gap-5 pb-7 last:pb-0">
+                        {!last && <span aria-hidden className="absolute bottom-0 left-[1.125rem] top-10 w-px bg-gradient-to-b from-flare/60 to-plasma/30" />}
+                        <span
+                          className={`label grid size-9 shrink-0 place-items-center rounded-full border ${
+                            last ? "border-flare bg-flare !text-void" : "border-line bg-void !text-bone"
+                          }`}
+                        >
+                          0{i + 1}
+                        </span>
+                        <div className="pt-1">
+                          <p className="text-lg font-medium tracking-tight md:text-xl">{s.title}</p>
+                          <p className="mt-1 text-sm leading-relaxed text-bone/65 md:text-base">{s.body}</p>
+                          {s.seat && (
+                            <span className="mt-3 inline-flex rounded-full border border-flare/35 px-3 py-1 text-xs font-medium text-flare">{s.seat}</span>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
+                <a href="#roles" className="group mt-8 flex items-center justify-between border-t border-line pt-5 text-sm font-medium">
+                  {hiring.system.cta}
+                  <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+                </a>
+              </div>
+            </FadeUp>
           </div>
+          <FadeUp delay={0.45} className="relative mt-14 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:mt-16 lg:max-w-3xl">
+            {hiring.proof.map((p) => (
+              <div key={p.label} className="flex items-baseline gap-3 border-l border-line pl-4 sm:block">
+                <div className="display text-gradient text-3xl md:text-4xl">{p.value}</div>
+                <p className="text-xs text-bone/55 sm:mt-2 md:text-sm">{p.label}</p>
+              </div>
+            ))}
+          </FadeUp>
+        </section>
+
+        {/* About */}
+        <section className="container-x border-t border-line py-16 md:py-24">
+          <p className="display max-w-[28ch] text-[clamp(1.6rem,3.6vw,3.2rem)] !leading-[1.08] text-bone/90">{hiring.about}</p>
         </section>
 
         {/* Roles */}
