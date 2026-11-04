@@ -17,17 +17,40 @@ export const hiring = {
   // PLACEHOLDER: confirm what The Selling System is in one line.
   about:
     "The Selling System is Dark Mattr's sales floor. Our lead-generation engine fills the calendar; setters, closers and outbound specialists turn it into revenue, and get paid for every deal.",
-  eyebrow: "The Selling System · Hiring now · Remote",
-  headline: { lineOne: "You sell.", lineTwo: "We bring the buyers." },
-  sub: "Three seats open: DM/Phone Setter, Closer and Outbound Sales Specialist. If you can hold a conversation and close a loop, we want to hear from you.",
-  primaryCta: "Start your application",
-  secondaryCta: "See the roles",
-  proof: [
-    // PLACEHOLDER: replace with real, verifiable numbers.
-    { value: "100%", label: "Remote, work from anywhere" },
-    { value: "Weekly", label: "Call reviews and coaching" },
-    { value: "Uncapped", label: "Commission on every deal" },
-  ],
+  tag: "Now hiring · Fully remote",
+  headline: { lineOne: "You sell.", lineTwo: "We bring the", accent: "buyers." },
+  subhead: "Now Hiring DM/Phone Setters, Closers & Outbound Sales Specialists",
+  sub: "If you can hold a conversation and close a loop, we want to hear from you.",
+  primaryCta: "Start Your Application",
+  secondaryCta: "See the Roles",
+  note: "*Takes about 10 minutes",
+  founders: {
+    title: "Meet the Founders",
+    body: "Aal & Mo built Dark Mattr from Paris into an agency with $23,000,000+ in revenue generated. Now they're building the sales team behind it.",
+    cta: "Apply to Join the Team",
+  },
+  results: {
+    title: "Sell for a team that delivers",
+    sub: "Here's a glimpse into our impact, broken down",
+    // From darkmattr.co (published results). Keep in sync with the main site.
+    stats: [
+      { label: "Total Revenue Generated", value: "$23,000,000+" },
+      { label: "Average ROAS", value: "3.6" },
+      { label: "Battle-tested Strategies", value: "174" },
+      { label: "Eyeballs Grabbed", value: "71,000,000+" },
+    ],
+  },
+  rolesIntro: {
+    eyebrow: "The Selling System",
+    title: "Three seats. Pick yours.",
+    sub: "You'll tell us which one fits you best in the application.",
+  },
+  apply: {
+    title: { lead: "Ready to", accent: "sell?" },
+    body: "Leave your details now. The survey comes next: eight questions about how you actually sell, one at a time, plus your resume.",
+    steps: ["Your details, one minute", "The survey, eight questions", "A call with our sales lead"],
+  },
+  trust: { seenOn: "As Seen On", partners: "Our Partners" },
 };
 
 export type Role = {
@@ -71,7 +94,8 @@ export const roles: Role[] = [
 ];
 
 export const why = {
-  title: "Why sell here",
+  title: "Why Sell With Us?",
+  aside: "*Without the guesswork",
   points: [
     { title: "Leads from our own engine", body: "Dark Mattr is a lead-generation agency. You sell to people who asked to talk, not a phone book." },
     { title: "Scripts, training, call reviews", body: "Weekly reviews with the sales lead. You get better every week or we're not doing our job." },
@@ -81,7 +105,7 @@ export const why = {
 };
 
 export const process = {
-  title: "How hiring works",
+  title: "How Hiring Works",
   steps: [
     { n: "01", title: "Apply", body: "Leave your details. Takes about a minute.", time: "1 min" },
     { n: "02", title: "Survey", body: "Eight questions about how you sell, one at a time, plus your resume.", time: "10 min" },
@@ -89,6 +113,8 @@ export const process = {
     { n: "04", title: "Trial", body: "A paid trial week on real leads. Then we decide together.", time: "1 week" }, // PLACEHOLDER
   ],
 };
+
+export const faqTitle = "Got Questions? We've Got Answers!";
 
 export const faq = [
   { q: "Is this remote?", a: "Yes, fully. You need a quiet place, a stable connection and a laptop. Our calls run mostly in European and Middle East hours." }, // PLACEHOLDER: hours
@@ -99,9 +125,9 @@ export const faq = [
 
 /** Step 1: contact details. Has its own webhook. */
 export const stepOne = {
-  title: "Start your application",
+  title: "Start Your Application",
   sub: "Four details, then the survey. We'll use them to map your answers to your profile.",
-  button: "Continue to the survey",
+  button: "Continue to the Survey",
 };
 
 export type Question =
@@ -170,13 +196,13 @@ export const questions: Question[] = [
 ];
 
 export const confirmStep = {
-  title: "Please confirm your information",
+  title: "Please Confirm Your Information",
   sub: "We use it to map your answers to your profile. Edit anything that's changed.",
-  button: "Submit my application",
+  button: "Submit My Application",
   retention: "We keep your resume for 90 days to run this hiring round, then delete it.",
 };
 
 export const success = {
-  title: "Application received.",
+  title: "Application Received!",
   body: "We read every one. If you're a fit, you'll get a call invite within two business days.",
 };

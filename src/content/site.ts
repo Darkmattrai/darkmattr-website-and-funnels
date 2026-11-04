@@ -11,9 +11,9 @@
 
 export const site = {
   name: "Dark Mattr",
-  url: "https://darkmattr.com", // PLACEHOLDER: your real domain
-  email: "hello@darkmattr.com", // PLACEHOLDER: your real inbox
-  location: "Worldwide · Remote-first", // PLACEHOLDER
+  url: "https://darkmattr.co",
+  email: "info@darkmattr.co",
+  location: "Paris, France",
   description:
     "Dark Mattr is a lead generation agency and a family of companies, digital products and software. We build the invisible system of ads, funnels, outreach and automation that pulls customers into your orbit.",
   socials: [

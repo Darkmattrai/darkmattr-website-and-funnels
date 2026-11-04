@@ -10,6 +10,7 @@
   --color-flare: #ff5b2e;
   --color-plasma: #8b5cff;
   --color-ion: #5ce1ff;
+  --color-danger: #ff6b57;
 
   --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
@@ -134,3 +135,144 @@ input, textarea, select { font: inherit; }
   0% { transform: translateY(-100%); }
   100% { transform: translateY(200%); }
 }
+
+/* ── darkmattr.co brand: hiring funnel (/selling-system) ─────────────────────
+   Mirrors darkmattr.co: charcoal #222, chartreuse #7FFF00 → #58BA00, Montserrat,
+   raised dark pills. Shared tokens are remapped so the funnel components pick the
+   brand up without forking them; the main site keeps its own theme. */
+.theme-dm {
+  --color-void: #222222;
+  --color-ink: #1c1c1c;
+  --color-panel: #2a2a2a;
+  --color-line: rgb(255 255 255 / 0.1);
+  --color-mist: #a6a6a6;
+  --color-bone: #ffffff;
+  --color-flare: #7fff00;
+  --color-plasma: #58ba00;
+  --color-ion: #7fff00;
+  --color-danger: #ff7a7a;
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  min-height: 100svh;
+  background: var(--color-void);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+}
+html:has(.theme-dm),
+html:has(.theme-dm) body { background: #222222; }
+html:has(.theme-dm) .grain { display: none; }
+
+.theme-dm .label {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: rgb(255 255 255 / 0.75);
+}
+.theme-dm .display {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.06;
+  text-transform: uppercase;
+  font-variation-settings: normal;
+}
+.theme-dm .text-gradient { background: none; color: var(--color-flare); animation: none; }
+
+/* Green bold sub-heads, as on darkmattr.co */
+.dm-eyebrow {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-flare);
+}
+
+/* Primary: green gradient pill, dark text */
+.dm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.95rem 1.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #141414;
+  background: linear-gradient(135deg, #7fff00, #58ba00);
+  box-shadow: 0 10px 28px -12px rgb(127 255 0 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.35);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s, opacity 0.2s;
+}
+.dm-btn:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 14px 34px -12px rgb(127 255 0 / 0.75), inset 0 1px 0 rgb(255 255 255 / 0.35); }
+.dm-btn:active { transform: translateY(1px); }
+.dm-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; filter: none; }
+
+/* Secondary: raised charcoal pill, green text */
+.dm-btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.95rem 1.9rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-flare);
+  background: #222222;
+  box-shadow: -5px -5px 15px rgb(255 255 255 / 0.07), 5px 5px 15px rgb(0 0 0 / 0.6);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.dm-btn-dark:hover { transform: translateY(-1px); box-shadow: -6px -6px 18px rgb(255 255 255 / 0.09), 6px 6px 18px rgb(0 0 0 / 0.65); }
+.dm-btn-dark:active { transform: translateY(1px); box-shadow: inset 3px 3px 8px rgb(0 0 0 / 0.55), inset -2px -2px 6px rgb(255 255 255 / 0.05); }
+
+/* Raised charcoal surface (cards, form) */
+.dm-raised {
+  background: #222222;
+  box-shadow: -6px -6px 18px rgb(255 255 255 / 0.04), 8px 8px 24px rgb(0 0 0 / 0.55);
+  border: 1px solid rgb(255 255 255 / 0.04);
+}
+
+.dm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: #222222;
+  box-shadow: -4px -4px 12px rgb(255 255 255 / 0.06), 4px 4px 12px rgb(0 0 0 / 0.55);
+}
+
+/* Inset input well; the control inside is transparent */
+.dm-field {
+  display: flex;
+  align-items: stretch;
+  border-radius: 0.85rem;
+  background: #1b1b1b;
+  border: 1px solid rgb(255 255 255 / 0.09);
+  box-shadow: inset 3px 3px 8px rgb(0 0 0 / 0.5), inset -2px -2px 6px rgb(255 255 255 / 0.03);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.dm-field:focus-within {
+  border-color: var(--color-flare);
+  box-shadow: inset 3px 3px 8px rgb(0 0 0 / 0.5), 0 0 0 3px rgb(127 255 0 / 0.16);
+}
+.dm-field[data-invalid] { border-color: color-mix(in oklab, var(--color-danger) 75%, transparent); }
+.dm-control {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: inherit;
+}
+.dm-control::placeholder { color: rgb(255 255 255 / 0.55); }
+.dm-control:focus-visible { outline: none; }
+textarea.dm-control { resize: none; }

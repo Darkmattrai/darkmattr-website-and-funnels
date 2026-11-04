@@ -1,169 +1,257 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
+import asSeenOn from "@/assets/brand/as-seen-on.png";
+import founders from "@/assets/brand/founders.jpg";
+import shopifyPartner from "@/assets/brand/shopify-partner.png";
+import tiktokPartner from "@/assets/brand/tiktok-partner.png";
 import { ApplyStepOne } from "@/components/hiring/ApplyStepOne";
-import { LogoMark } from "@/components/Logo";
-import { FadeUp, RevealText, SectionLabel } from "@/components/Reveal";
-import { faq, hiring, process, roles, why } from "@/content/hiring";
+import { BrandLogo } from "@/components/hiring/BrandLogo";
+import { FadeUp } from "@/components/Reveal";
+import { faq, faqTitle, hiring, process, roles, why } from "@/content/hiring";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Join The Selling System · Setters, Closers, Outbound",
-  description: `${hiring.about} Now hiring DM/Phone Setters, Closers and Outbound Sales Specialists. Remote.`,
-  openGraph: { title: "You sell. We bring the buyers. · The Selling System", description: hiring.sub },
+  description: `Now hiring DM/Phone Setters, Closers and Outbound Sales Specialists at Dark Mattr. Fully remote. ${hiring.sub}`,
+  openGraph: { title: "You sell. We bring the buyers. · Dark Mattr is hiring", description: hiring.subhead },
 };
 
-function HiringNav() {
+const NAV = [
+  { label: "Roles", href: "#roles" },
+  { label: "Why Us?", href: "#why" },
+  { label: "How It Works", href: "#process" },
+  { label: "FAQ", href: "#faq" },
+];
+
+function Check() {
   return (
-    <header className="fixed inset-x-0 top-0 z-[70] bg-void/60 backdrop-blur-md">
-      <div className="container-x flex h-16 items-center justify-between md:h-20">
-        <Link href="/" className="group flex items-center gap-2.5 text-[0.95rem] font-semibold tracking-tight">
-          <LogoMark className="size-6 transition-transform duration-700 group-hover:rotate-[200deg]" />
-          Dark Mattr <span className="hidden font-normal text-bone/50 sm:inline">· The Selling System</span>
-        </Link>
-        <a href="#apply" className="flex min-h-11 items-center gap-2 rounded-full bg-bone px-4 py-2 text-[0.85rem] font-medium text-void transition-colors hover:bg-flare">
-          <span className="pulse-dot size-1.5 rounded-full bg-green-500" />
-          Apply now
-        </a>
-      </div>
-    </header>
+    <svg viewBox="0 0 20 20" aria-hidden className="mt-0.5 size-5 shrink-0 text-flare">
+      <path d="M4 10.5l3.6 3.6L16 6" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
+
+function Chevron({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden className={`size-5 shrink-0 text-flare ${className}`}>
+      <path d="M5 7.5l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+const wrap = "container-x mx-auto w-full max-w-[1280px]";
+const h2 = "display text-[clamp(1.9rem,4vw,2.75rem)]";
 
 export default function SellingSystemHiring() {
   return (
     <>
-      <HiringNav />
+      <header className="fixed inset-x-0 top-0 z-[70] border-b border-line bg-void/85 backdrop-blur-md">
+        <div className={`${wrap} flex h-16 items-center justify-between gap-6 md:h-20`}>
+          <a href={site.url} aria-label="Dark Mattr home" className="shrink-0">
+            <BrandLogo priority className="h-7 w-auto md:h-9" />
+          </a>
+          <nav aria-label="Page sections" className="hidden items-center gap-9 text-[1.05rem] lg:flex">
+            {NAV.map((n) => (
+              <a key={n.href} href={n.href} className="text-bone/90 transition-colors hover:text-flare">
+                {n.label}
+              </a>
+            ))}
+          </nav>
+          <a href="#apply" className="dm-btn min-h-11 px-5 py-2.5 text-[0.95rem]">
+            Apply Now
+          </a>
+        </div>
+      </header>
+
       <main>
-        {/* Hero */}
-        <section className="container-x relative overflow-hidden pb-16 pt-32 md:pb-24 md:pt-44">
-          <div className="pointer-events-none absolute -right-1/4 top-0 size-[70vmax] rounded-full bg-[radial-gradient(circle,rgba(255,91,46,0.16),rgba(139,92,255,0.08)_35%,transparent_60%)]" />
-          <div className="relative">
-            <SectionLabel>{hiring.eyebrow}</SectionLabel>
-            <h1 className="display mt-8 text-[clamp(3rem,9.5vw,9.5rem)]">
-              <RevealText text={hiring.headline.lineOne} as="span" className="block" />
-              <RevealText text={hiring.headline.lineTwo} as="span" className="block" delay={0.15} accent={["buyers."]} />
+        {/* Hero: centred, uppercase, as on darkmattr.co */}
+        <section className={`${wrap} relative pb-12 pt-32 text-center md:pb-24 md:pt-48`}>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-24 h-[420px] w-[900px] max-w-full -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(127,255,0,0.09),transparent)]"
+          />
+          <FadeUp className="relative">
+            <span className="dm-chip">
+              <span className="pulse-dot size-2 rounded-full bg-flare" />
+              {hiring.tag}
+            </span>
+            <h1 className="display mx-auto mt-8 text-[clamp(2.4rem,6vw,4.5rem)]">
+              <span className="block">{hiring.headline.lineOne}</span>
+              <span className="block">
+                {hiring.headline.lineTwo}{" "}
+                <span className="text-flare underline decoration-[0.07em] underline-offset-[0.14em]">{hiring.headline.accent}</span>
+              </span>
             </h1>
-            <div className="mt-10 grid gap-8 md:grid-cols-[minmax(0,36rem)_1fr] md:items-end">
-              <FadeUp delay={0.3}>
-                <p className="text-lg leading-relaxed text-bone/75 md:text-xl">{hiring.sub}</p>
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <a href="#apply" className="group inline-flex items-center gap-3 rounded-full bg-flare py-3.5 pl-6 pr-3.5 font-medium text-void transition-colors hover:bg-bone">
-                    {hiring.primaryCta}
-                    <span className="grid size-7 place-items-center rounded-full bg-void text-bone transition-transform duration-500 group-hover:rotate-[-45deg]">→</span>
-                  </a>
-                  <a href="#roles" className="inline-flex items-center rounded-full border border-bone/20 px-6 py-3.5 font-medium transition-colors hover:border-bone/60">
-                    {hiring.secondaryCta}
-                  </a>
-                </div>
-              </FadeUp>
-              <FadeUp delay={0.45} className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:justify-self-end">
-                {hiring.proof.map((p) => (
-                  <div key={p.label} className="flex items-baseline gap-3 border-l border-line pl-4 sm:block">
-                    <div className="display text-gradient text-3xl md:text-4xl">{p.value}</div>
-                    <p className="text-xs text-bone/55 sm:mt-2 md:text-sm">{p.label}</p>
-                  </div>
-                ))}
-              </FadeUp>
+            <p className="mx-auto mt-6 max-w-[30ch] text-[clamp(1.2rem,2.4vw,2rem)] font-bold leading-snug">{hiring.subhead}</p>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-bone/80 md:text-xl">{hiring.sub}</p>
+            <div className="mt-10 flex flex-wrap justify-center gap-4">
+              <a href="#apply" className="dm-btn">
+                {hiring.primaryCta}
+              </a>
+              <a href="#roles" className="dm-btn-dark">
+                {hiring.secondaryCta}
+              </a>
             </div>
-          </div>
+            <p className="mt-4 text-sm text-bone/60">{hiring.note}</p>
+          </FadeUp>
         </section>
 
-        {/* About */}
-        <section className="container-x border-t border-line py-16 md:py-24">
-          <p className="display max-w-[28ch] text-[clamp(1.6rem,3.6vw,3.2rem)] !leading-[1.08] text-bone/90">{hiring.about}</p>
+        {/* Meet the founders */}
+        <section className={`${wrap} grid items-center gap-10 py-10 md:py-20 lg:grid-cols-2 lg:gap-16`}>
+          <FadeUp className="dm-raised overflow-hidden rounded-[1.25rem]">
+            <Image
+              src={founders}
+              alt="Aal & Mo, the founders of Dark Mattr, in the Dark Mattr office"
+              placeholder="blur"
+              sizes="(min-width: 1024px) 600px, 100vw"
+              className="h-auto w-full"
+            />
+          </FadeUp>
+          <FadeUp delay={0.1}>
+            <h2 className={h2}>{hiring.founders.title}</h2>
+            <p className="mt-6 text-lg leading-relaxed text-bone/85">{hiring.founders.body}</p>
+            <p className="mt-4 text-lg leading-relaxed text-bone/85">{hiring.about}</p>
+            <a href="#apply" className="dm-btn-dark mt-8">
+              {hiring.founders.cta}
+            </a>
+          </FadeUp>
         </section>
 
         {/* Roles */}
-        <section id="roles" className="container-x py-20 md:py-28">
-          <SectionLabel>Three seats open</SectionLabel>
-          <RevealText as="h2" text={"Pick the seat\nthat fits you."} className="display mt-8 text-[clamp(2.4rem,6vw,6rem)]" accent={["you."]} />
-          <div className="mt-14 grid gap-4 lg:grid-cols-3">
+        <section id="roles" className={`${wrap} scroll-mt-20 py-20 md:py-28`}>
+          <div className="text-center">
+            <p className="dm-eyebrow">{hiring.rolesIntro.eyebrow}</p>
+            <h2 className={`${h2} mt-3`}>{hiring.rolesIntro.title}</h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-bone/80">{hiring.rolesIntro.sub}</p>
+          </div>
+          <div className="mt-14 grid gap-6 lg:grid-cols-3">
             {roles.map((r, i) => (
-              <FadeUp key={r.id} delay={i * 0.08} className="flex flex-col rounded-[2rem] border border-line bg-panel/50 p-7 md:p-9">
-                <span className="label">0{i + 1}</span>
-                <h3 className="display mt-4 text-3xl md:text-4xl">{r.title}</h3>
-                <p className="mt-2 font-serif text-2xl italic text-flare">{r.tagline}</p>
-                <p className="mt-5 text-bone/70">{r.summary}</p>
-                <p className="label mt-7">You&rsquo;ll</p>
-                <ul className="mt-3 space-y-2 text-sm text-bone/80">
+              <FadeUp key={r.id} delay={i * 0.08} className="dm-raised flex flex-col rounded-[1.5rem] p-7 md:p-8">
+                <span className="text-sm font-extrabold text-flare">0{i + 1}</span>
+                <h3 className="mt-3 text-2xl font-extrabold uppercase leading-tight md:text-[1.6rem]">{r.title}</h3>
+                <p className="mt-2 font-semibold text-flare">{r.tagline}</p>
+                <p className="mt-4 text-bone/80">{r.summary}</p>
+                <h4 className="mt-7 text-xs font-bold uppercase tracking-[0.08em] text-bone/70">You&rsquo;ll</h4>
+                <ul className="mt-3 space-y-2.5">
                   {r.youWill.map((x) => (
-                    <li key={x} className="flex gap-3">
-                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-flare" />
+                    <li key={x} className="flex gap-3 text-[0.95rem] text-bone/90">
+                      <Check />
                       {x}
                     </li>
                   ))}
                 </ul>
-                <p className="label mt-6">We look for</p>
-                <ul className="mt-3 space-y-2 text-sm text-bone/80">
+                <h4 className="mt-6 text-xs font-bold uppercase tracking-[0.08em] text-bone/70">We look for</h4>
+                <ul className="mt-3 space-y-2.5">
                   {r.weLookFor.map((x) => (
-                    <li key={x} className="flex gap-3">
-                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-plasma" />
+                    <li key={x} className="flex gap-3 text-[0.95rem] text-bone/90">
+                      <Check />
                       {x}
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8 flex items-center justify-between border-t border-line pt-5">
-                  <span className="text-sm text-bone/60">{r.comp}</span>
-                  <a href="#apply" className="-my-3 -mr-3 py-3 pr-3 pl-3 text-sm font-medium underline-offset-4 hover:underline">
-                    Apply →
+                <div className="flex-1" />
+                <div className="mt-8 flex items-center justify-between gap-4 border-t border-line pt-5">
+                  <span className="text-sm text-bone/70">{r.comp}</span>
+                  <a href="#apply" className="dm-btn-dark min-h-11 shrink-0 px-5 py-2.5 text-sm">
+                    Apply
                   </a>
                 </div>
               </FadeUp>
             ))}
+          </div>
+        </section>
+
+        {/* Results, as on darkmattr.co */}
+        <section className="bg-ink py-20 md:py-28">
+          <div className={`${wrap} grid items-center gap-12 lg:grid-cols-2`}>
+            <FadeUp className="text-center">
+              <h2 className={h2}>{hiring.results.title}</h2>
+              <p className="mt-4 text-xl text-bone/85">{hiring.results.sub}</p>
+              <a href="#apply" className="dm-btn mt-8">
+                {hiring.primaryCta}
+              </a>
+              <p className="mt-3 text-sm text-bone/60">{hiring.note}</p>
+            </FadeUp>
+            <dl className="grid gap-5 sm:grid-cols-2">
+              {hiring.results.stats.map((s, i) => (
+                <FadeUp key={s.label} delay={i * 0.06} className="dm-raised rounded-2xl p-6">
+                  <dt className="text-lg font-bold">{s.label}</dt>
+                  <dd className="mt-1 text-[2rem] font-extrabold leading-tight text-flare">{s.value}</dd>
+                </FadeUp>
+              ))}
+            </dl>
           </div>
         </section>
 
         {/* Why */}
-        <section className="bg-ink py-20 md:py-28">
-          <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.3fr]">
-            <div>
-              <SectionLabel>{why.title}</SectionLabel>
-              <h2 className="display mt-8 text-[clamp(2.2rem,5vw,5rem)]">
-                Sell what people <span className="font-serif font-normal italic tracking-[-0.02em] text-gradient">already want.</span>
-              </h2>
-            </div>
-            <ul className="grid gap-px overflow-hidden rounded-[2rem] border border-line bg-line sm:grid-cols-2">
-              {why.points.map((p) => (
-                <li key={p.title} className="bg-ink p-7">
-                  <h3 className="text-xl font-medium tracking-tight">{p.title}</h3>
-                  <p className="mt-3 text-bone/65">{p.body}</p>
-                </li>
-              ))}
-            </ul>
+        <section id="why" className="container-x mx-auto w-full max-w-[1100px] scroll-mt-20 py-20 md:py-28">
+          <div className="text-center">
+            <h2 className="text-[clamp(1.8rem,3vw,2.25rem)] font-bold text-flare">{why.title}</h2>
+            <p className="mt-1 text-lg">{why.aside}</p>
           </div>
+          <ul className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-2">
+            {why.points.map((p) => (
+              <li key={p.title} className="flex gap-4">
+                <Check />
+                <div>
+                  <h3 className="text-lg font-bold">{p.title}</h3>
+                  <p className="mt-1 text-bone/80">{p.body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Process */}
-        <section className="container-x py-20 md:py-28">
-          <SectionLabel>{process.title}</SectionLabel>
-          <ol className="mt-12 grid gap-4 md:grid-cols-4">
-            {process.steps.map((s) => (
-              <li key={s.n} className="rounded-[1.5rem] border border-line p-6">
-                <div className="flex items-baseline justify-between">
-                  <span className="display text-5xl text-transparent [-webkit-text-stroke:1px_rgba(239,238,233,0.3)]">{s.n}</span>
-                  <span className="label">{s.time}</span>
-                </div>
-                <h3 className="mt-4 text-xl font-medium tracking-tight">{s.title}</h3>
-                <p className="mt-2 text-bone/65">{s.body}</p>
-              </li>
-            ))}
-          </ol>
+        <section id="process" className="scroll-mt-20 bg-ink py-20 md:py-28">
+          <div className={wrap}>
+            <h2 className={`${h2} text-center`}>{process.title}</h2>
+            <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {process.steps.map((s) => (
+                <li key={s.n} className="dm-raised rounded-2xl p-6">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-4xl font-extrabold text-flare">{s.n}</span>
+                    <span className="dm-chip px-3 py-1 text-xs">{s.time}</span>
+                  </div>
+                  <h3 className="mt-4 text-xl font-bold">{s.title}</h3>
+                  <p className="mt-2 text-bone/80">{s.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* As seen on + partners */}
+        <section className="container-x mx-auto w-full max-w-[1100px] py-16 text-center md:py-24">
+          <h2 className="text-[clamp(1.6rem,2.6vw,2rem)] font-bold">{hiring.trust.seenOn}</h2>
+          <Image
+            src={asSeenOn}
+            alt="As seen on CBS, NBC, USA Today, Fox News, VDL News, Times Now, Daily Times Leader and Sawt Beirut International"
+            sizes="(min-width: 768px) 720px, 100vw"
+            className="mx-auto mt-8 h-auto w-full max-w-[720px]"
+          />
+          <h2 className="mt-16 text-[clamp(1.6rem,2.6vw,2rem)] font-bold">{hiring.trust.partners}</h2>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
+            <Image src={shopifyPartner} alt="Shopify Partner" sizes="120px" className="h-20 w-auto" />
+            <Image src={tiktokPartner} alt="TikTok Marketing Partners" sizes="220px" className="h-16 w-auto" />
+          </div>
         </section>
 
         {/* Apply: step 1 */}
-        <section id="apply" className="relative overflow-hidden bg-ink py-20 md:py-28">
-          <div className="pointer-events-none absolute -bottom-1/3 left-1/2 size-[90vmax] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,91,46,0.14),rgba(139,92,255,0.08)_35%,transparent_60%)]" />
-          <div className="container-x relative grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
-            <div>
-              <SectionLabel>Apply</SectionLabel>
-              <RevealText as="h2" text={"Two steps.\nTen minutes."} className="display mt-8 text-[clamp(2.6rem,7vw,7rem)]" accent={["minutes."]} />
-              <p className="mt-8 max-w-md text-lg leading-relaxed text-bone/65">
-                Leave your details now. The survey comes next: eight questions about how you actually sell, one at a time, plus your resume.
-              </p>
+        <section id="apply" className="scroll-mt-20 bg-ink py-20 md:py-28">
+          <div className={`${wrap} grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16`}>
+            <div className="lg:pt-6">
+              <p className="dm-eyebrow">Apply</p>
+              <h2 className="display mt-3 text-[clamp(2.2rem,4.6vw,3.5rem)]">
+                {hiring.apply.title.lead} <span className="text-flare">{hiring.apply.title.accent}</span>
+              </h2>
+              <p className="mt-6 max-w-md text-lg leading-relaxed text-bone/85">{hiring.apply.body}</p>
               <ol className="mt-10 space-y-4">
-                {["Your details, one minute", "The survey, eight questions", "A call with our sales lead"].map((t, i) => (
-                  <li key={t} className="flex items-center gap-4 text-bone/80">
-                    <span className="label grid size-9 shrink-0 place-items-center rounded-full border border-line">0{i + 1}</span>
+                {hiring.apply.steps.map((t, i) => (
+                  <li key={t} className="flex items-center gap-4 text-bone/90">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-flare to-plasma text-sm font-extrabold text-void">
+                      {i + 1}
+                    </span>
                     {t}
                   </li>
                 ))}
@@ -173,26 +261,42 @@ export default function SellingSystemHiring() {
           </div>
         </section>
 
-        {/* FAQ */}
-        <section className="container-x grid gap-10 py-20 md:py-28 lg:grid-cols-[1fr_1.6fr]">
-          <div>
-            <SectionLabel>Before you ask</SectionLabel>
-          </div>
-          <dl className="border-t border-line">
+        {/* FAQ: cards with chevrons, as on darkmattr.co */}
+        <section id="faq" className="container-x mx-auto w-full max-w-[1100px] scroll-mt-20 py-20 md:py-28">
+          <h2 className="text-center text-[clamp(1.8rem,3vw,2.25rem)] font-bold">{faqTitle}</h2>
+          <div className="mt-10 grid gap-4 md:grid-cols-2 md:items-start">
             {faq.map((f) => (
-              <div key={f.q} className="border-b border-line py-6">
-                <dt className="text-xl font-medium tracking-tight">{f.q}</dt>
-                <dd className="mt-2 max-w-2xl text-bone/65">{f.a}</dd>
-              </div>
+              <details key={f.q} className="dm-raised group rounded-2xl px-6 py-5">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <Chevron className="transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <p className="mt-3 leading-relaxed text-bone/80">{f.a}</p>
+              </details>
             ))}
-          </dl>
+          </div>
         </section>
       </main>
-      <footer className="container-x flex flex-wrap items-center justify-between gap-4 border-t border-line py-6 text-sm text-bone/55">
-        <span>© {new Date().getFullYear()} {site.name} · The Selling System</span>
-        <a href={`mailto:${site.email}`} className="hover:text-bone">
-          {site.email}
-        </a>
+
+      <footer className="border-t border-line">
+        <div className={`${wrap} flex flex-col items-center gap-8 py-12 text-center md:flex-row md:justify-between md:text-left`}>
+          <BrandLogo className="h-9 w-auto" />
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-3 text-bone/80">
+            <a href={`mailto:${site.email}`} className="hover:text-flare">
+              {site.email}
+            </a>
+            <span>{site.location}</span>
+            <a href={`${site.url}/terms`} className="hover:text-flare">
+              Terms
+            </a>
+          </div>
+          <a href="#apply" className="dm-btn">
+            Apply Now
+          </a>
+        </div>
+        <p className="pb-8 text-center text-sm text-bone/60">
+          © {new Date().getFullYear()} {site.name} · {hiring.brand}
+        </p>
       </footer>
     </>
   );
