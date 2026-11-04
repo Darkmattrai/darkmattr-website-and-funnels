@@ -18,8 +18,8 @@ export const hiring = {
   about:
     "The Selling System is Dark Mattr's sales floor. Our lead-generation engine fills the calendar; setters, closers and outbound specialists turn it into revenue, and get paid for every deal.",
   eyebrow: "Dark Mattr · The Selling System · Hiring now · Remote",
-  headline: { lineOne: "Stop chasing cold leads.", lineTwo: "Close buyers who\nasked to talk.", accent: "asked to talk." },
-  sub: "Dark Mattr's lead engine has generated $23,000,000+ for our clients. Now we're hiring the setters, closers and outbound reps who turn that pipeline into revenue, fully remote and paid on every deal you touch.",
+  headline: { lineOne: "Join the fastest-growing", lineTwo: "sales team in the region.", accent: "fastest-growing" },
+  sub: "Our own ad engine fills the calendar with buyers who asked to talk. We're hiring the setters, closers and outbound reps who turn that pipeline into revenue: fully remote, coached every week, paid on every deal you touch.",
   // PLACEHOLDER: confirm these perks.
   chips: [
     "Warm inbound from our own ad engine",
@@ -28,7 +28,6 @@ export const hiring = {
     "A real path: setter to closer to lead",
   ],
   primaryCta: "Claim your seat",
-  navCta: "Apply now",
   seats: "3 seats open: Setter · Closer · Outbound",
   riskReversal: "Takes 60 seconds to start. No CV until step 2. We reply within two business days.",
 };

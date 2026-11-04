@@ -5,7 +5,7 @@ import { FadeUp, RevealText, SectionLabel } from "@/components/Reveal";
 import { hiring } from "@/content/hiring";
 import { site } from "@/content/site";
 
-const shareTitle = "Stop chasing cold leads. Close buyers who asked to talk. · The Selling System";
+const shareTitle = "Join the fastest-growing sales team in the region · The Selling System";
 
 export const metadata: Metadata = {
   title: "Join The Selling System · Setters, Closers, Outbound",
@@ -30,18 +30,14 @@ export default function SellingSystemHiring() {
           <BrandLogo priority className="h-5 w-auto md:h-6" />
           <span className="hidden text-bone/50 sm:inline">· {hiring.brand}</span>
         </a>
-        <ApplyModal className="flex min-h-11 items-center gap-2 rounded-full bg-bone px-4 py-2 text-[0.85rem] font-medium text-void transition-colors hover:bg-flare">
-          <span className="pulse-dot size-1.5 rounded-full bg-green-500" />
-          {hiring.navCta}
-        </ApplyModal>
       </header>
 
       <main className="container-x relative z-10 flex flex-1 items-center py-6 md:py-8">
         <div className="w-full max-w-[64rem]">
           <SectionLabel>{hiring.eyebrow}</SectionLabel>
           <h1 className="display mt-6 text-[clamp(2.4rem,5.6vw,5.75rem)] !leading-[0.98] md:mt-8">
-            <RevealText text={hiring.headline.lineOne} as="span" className="block text-bone/55" />
-            <RevealText text={hiring.headline.lineTwo} as="span" className="block" delay={0.15} accent={hiring.headline.accent.split(" ")} />
+            <RevealText text={hiring.headline.lineOne} as="span" className="block" accent={[hiring.headline.accent]} />
+            <RevealText text={hiring.headline.lineTwo} as="span" className="block" delay={0.15} />
           </h1>
           <FadeUp delay={0.3}>
             <p className="mt-6 max-w-[40rem] text-base leading-relaxed text-bone/75 sm:text-lg md:text-xl">{hiring.sub}</p>
