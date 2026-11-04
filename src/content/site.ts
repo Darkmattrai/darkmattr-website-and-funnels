@@ -12,6 +12,8 @@
 export const site = {
   name: "Dark Mattr",
   url: "https://darkmattr.co",
+  /** Where the Selling System hiring funnel is published (SITE_MODE=hiring). */
+  careersUrl: "https://careers.darkmattr.co",
   email: "info@darkmattr.co",
   location: "Paris, France",
   description:

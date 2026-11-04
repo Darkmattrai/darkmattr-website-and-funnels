@@ -2,7 +2,7 @@ import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import { MAX_ANSWER_CHARS, MAX_RESUME_MB, questions, roles } from "@/content/hiring";
 import { normalizePhone } from "@/lib/phone";
-import { EMAIL_RE, forwardToWebhook, normalizeInstagram, parseObject, sanitizeUtm, str } from "@/lib/webhook";
+import { APPLICANT_TAGS, EMAIL_RE, forwardToWebhook, normalizeInstagram, parseObject, sanitizeUtm, str } from "@/lib/webhook";
 
 // Vercel rejects request bodies over 4.5 MB before the function runs; 4 MB leaves headroom.
 const MAX_RESUME_BYTES = MAX_RESUME_MB * 1024 * 1024;
@@ -102,7 +102,7 @@ export async function POST(req: Request) {
     source: get("source", 500),
     utm: sanitizeUtm(parseObject(get("utm", 4000))),
     stepOneAt: get("stepOneAt", 40),
-    tags: ["selling-system-applicant", "step-2", ROLE_TAG[answers.position] ?? "role-unknown"],
+    tags: [...APPLICANT_TAGS, "step-2", ROLE_TAG[answers.position] ?? "role-unknown"],
     submittedAt: new Date().toISOString(),
   };
 

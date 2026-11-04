@@ -1,3 +1,6 @@
+/** Tags on every Selling System application payload, ahead of the step and role tags. */
+export const APPLICANT_TAGS = ["lead", "sales applicant"];
+
 /**
  * Forward a JSON payload to an inbound webhook (agenci.io / GoHighLevel, Zapier, Make…).
  * Returns true on 2xx. Never throws.

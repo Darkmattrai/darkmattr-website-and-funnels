@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { normalizePhone } from "@/lib/phone";
-import { EMAIL_RE, forwardToWebhook, normalizeInstagram, sanitizeUtm, str } from "@/lib/webhook";
+import { APPLICANT_TAGS, EMAIL_RE, forwardToWebhook, normalizeInstagram, sanitizeUtm, str } from "@/lib/webhook";
 
 /**
  * Step 1 of the Selling System application: contact details.
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     instagramUrl: `https://instagram.com/${instagram}`,
     source: str(body.source, 500),
     utm: sanitizeUtm(body.utm),
-    tags: ["selling-system-applicant", "step-1"],
+    tags: [...APPLICANT_TAGS, "step-1"],
     submittedAt: new Date().toISOString(),
   };
 
