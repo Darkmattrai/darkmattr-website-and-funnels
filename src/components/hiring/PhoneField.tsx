@@ -55,17 +55,17 @@ export function PhoneField({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-bold">
+      <label htmlFor={id} className="label">
         {label}
         {required && <span className="text-flare"> *</span>}
       </label>
-      <div className="clay-field mt-2" data-invalid={invalid ? "" : undefined}>
+      <div className={`mt-2 flex items-end gap-3 border-b transition-colors focus-within:border-flare ${invalid ? "border-flare/60" : "border-line"}`}>
         {/* Visible: "LB +961". The real select (with full country names) sits on top, transparent. */}
-        <div className="relative shrink-0 border-r-2 border-[#e6d6be]">
-          <span aria-hidden className="flex h-full items-center gap-2 py-[0.85rem] pl-4 pr-3 text-base font-bold">
+        <div className="relative w-[7.5rem] shrink-0">
+          <span aria-hidden className="flex items-center gap-1 py-3 text-base text-bone">
             {value.country} +{current?.callingCode}
-            <svg viewBox="0 0 12 12" className="size-3 text-bone" aria-hidden>
-              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.8" />
+            <svg viewBox="0 0 12 12" className="ml-auto size-3 text-bone/60" aria-hidden>
+              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </span>
           <select
@@ -93,10 +93,10 @@ export function PhoneField({
           placeholder={value.country === "LB" ? "71 097 342" : "Your number"}
           aria-invalid={invalid}
           aria-describedby={`${id}-hint`}
-          className="clay-control"
+          className="w-full bg-transparent py-3 text-lg outline-none placeholder:text-bone/50"
         />
       </div>
-      <p id={`${id}-hint`} className={`mt-2 text-xs font-semibold ${invalid ? "text-danger" : value.valid ? "text-[#3f7f27]" : "text-bone/75"}`} aria-live="polite">
+      <p id={`${id}-hint`} className={`mt-2 text-xs ${invalid ? "text-flare" : "text-bone/60"}`} aria-live="polite">
         {hint}
       </p>
     </div>

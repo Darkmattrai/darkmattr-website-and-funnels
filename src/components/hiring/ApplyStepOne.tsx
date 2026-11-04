@@ -23,22 +23,22 @@ export function Field({
   const id = useId();
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-bold">
+      <label htmlFor={id} className="label">
         {label}
         {required && <span className="text-flare"> *</span>}
       </label>
-      <div className="clay-field mt-2" data-invalid={error ? "" : undefined}>
-        <input
-          id={id}
-          required={required}
-          aria-invalid={Boolean(error)}
-          aria-describedby={error || hint ? `${id}-msg` : undefined}
-          {...props}
-          className="clay-control"
-        />
-      </div>
+      <input
+        id={id}
+        required={required}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error || hint ? `${id}-msg` : undefined}
+        {...props}
+        className={`mt-2 w-full border-b bg-transparent py-3 text-lg outline-none transition-colors placeholder:text-bone/50 focus:border-flare ${
+          error ? "border-flare/60" : "border-line"
+        }`}
+      />
       {(error || hint) && (
-        <p id={`${id}-msg`} role={error ? "alert" : undefined} className={`mt-2 text-xs font-semibold ${error ? "text-danger" : "text-bone/75"}`}>
+        <p id={`${id}-msg`} role={error ? "alert" : undefined} className={`mt-2 text-xs ${error ? "text-flare" : "text-bone/60"}`}>
           {error || hint}
         </p>
       )}
@@ -146,13 +146,13 @@ export function ApplyStepOne({
   };
 
   return (
-    <form ref={formRef} onSubmit={submit} noValidate className={compact ? "" : "clay-card p-6 sm:p-8 md:p-10"}>
+    <form ref={formRef} onSubmit={submit} noValidate className={compact ? "" : "rounded-[2rem] border border-line bg-void/70 p-6 backdrop-blur-md sm:p-8 md:p-10"}>
       <div className="mb-8">
-        <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#b4510a]">Step 1 of 2 · Your details</p>
-        <h3 className="clay-type clay-type-sm mt-2 text-[2rem] md:text-[2.35rem]">{stepOne.title}</h3>
-        <p className="mt-2 font-medium text-bone/85">{stepOne.sub}</p>
+        <p className="label">Step 1 of 2 · Your details</p>
+        <h3 className="mt-3 text-2xl font-medium tracking-tight md:text-3xl">{stepOne.title}</h3>
+        <p className="mt-2 text-bone/60">{stepOne.sub}</p>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-7 sm:grid-cols-2">
         <Field
           label="First name"
           required
@@ -207,16 +207,20 @@ export function ApplyStepOne({
       </div>
 
       {status === "error" && (
-        <p role="alert" className="mt-6 rounded-2xl border-2 border-danger/40 bg-danger/10 p-4 text-sm font-semibold">
+        <p role="alert" className="mt-6 rounded-xl border border-flare/40 bg-flare/10 p-4 text-sm">
           {error}
         </p>
       )}
 
-      <button type="submit" disabled={status === "sending"} className="clay-btn mt-9 w-full disabled:cursor-wait">
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className="group mt-8 flex w-full items-center justify-between rounded-full bg-flare py-3 pl-7 pr-3 text-lg font-medium text-void transition-all hover:bg-bone disabled:cursor-wait disabled:opacity-60"
+      >
         {status === "sending" ? "Saving…" : stepOne.button}
-        <span aria-hidden>→</span>
+        <span className="grid size-11 place-items-center rounded-full bg-void text-bone transition-transform duration-500 group-hover:rotate-[-45deg]">→</span>
       </button>
-      <p className="mt-5 text-center text-xs font-semibold text-bone/75">No spam. We only use this to get back to you about the role.</p>
+      <p className="mt-4 text-center text-xs text-bone/60">No spam. We only use this to get back to you about the role.</p>
     </form>
   );
 }
