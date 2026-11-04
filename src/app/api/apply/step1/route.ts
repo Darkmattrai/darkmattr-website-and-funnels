@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { normalizePhone } from "@/lib/phone";
-import { EMAIL_RE, forwardToWebhook, normalizeInstagram, str } from "@/lib/webhook";
+import { EMAIL_RE, forwardToWebhook, normalizeInstagram, sanitizeUtm, str } from "@/lib/webhook";
 
 /**
  * Step 1 of the Selling System application: contact details.
  * Forwards to SALES_APPLY_STEP1_WEBHOOK_URL (agenci.io inbound webhook).
+ * Abuse control: honeypot here; rate limiting belongs at the edge (Vercel WAF rule on /api/apply/*).
  */
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
@@ -25,7 +26,6 @@ export async function POST(req: Request) {
   if (!phone) return NextResponse.json({ error: "Please add a valid phone number." }, { status: 422 });
   if (!instagram) return NextResponse.json({ error: "Please add your Instagram account." }, { status: 422 });
 
-  const utm = body.utm && typeof body.utm === "object" ? (body.utm as Record<string, unknown>) : {};
   const payload = {
     step: "step1",
     funnel: "selling-system-hiring",
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     instagram,
     instagramUrl: `https://instagram.com/${instagram}`,
     source: str(body.source, 500),
-    utm: Object.fromEntries(Object.entries(utm).map(([k, v]) => [k, str(v, 200)])),
+    utm: sanitizeUtm(body.utm),
     tags: ["selling-system-applicant", "step-1"],
     submittedAt: new Date().toISOString(),
   };
@@ -45,14 +45,14 @@ export async function POST(req: Request) {
   const webhook = process.env.SALES_APPLY_STEP1_WEBHOOK_URL;
   if (!webhook) {
     if (process.env.NODE_ENV === "production") {
-      console.error("[apply/step1] SALES_APPLY_STEP1_WEBHOOK_URL is not set", email);
+      console.error("[apply/step1] SALES_APPLY_STEP1_WEBHOOK_URL is not set");
       return NextResponse.json({ error: "Applications are temporarily offline. Please try again shortly." }, { status: 503 });
     }
     console.info("[apply/step1] (dev, no webhook configured)", payload);
-    return NextResponse.json({ ok: true, phone });
+    return NextResponse.json({ ok: true });
   }
 
   const ok = await forwardToWebhook(webhook, payload);
   if (!ok) return NextResponse.json({ error: "We couldn't save that just now. Please try again." }, { status: 502 });
-  return NextResponse.json({ ok: true, phone });
+  return NextResponse.json({ ok: true });
 }

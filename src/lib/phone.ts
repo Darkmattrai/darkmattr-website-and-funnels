@@ -18,6 +18,8 @@ export type PhoneResult = {
   e164: string | null;
   /** +961 71 097 342 */
   international: string | null;
+  /** 71097342: the number without its country code */
+  national: string | null;
   valid: boolean;
 };
 
@@ -44,6 +46,8 @@ export function detectCountry(): CountryCode {
   return FALLBACK;
 }
 
+// English names come from the runtime's ICU, which differs slightly between Node and browsers
+// (e.g. "Hong Kong SAR China" vs "Hong Kong"), so this list is only rendered after hydration.
 const displayNames = (() => {
   try {
     return new Intl.DisplayNames(["en"], { type: "region" });
@@ -51,6 +55,7 @@ const displayNames = (() => {
     return null;
   }
 })();
+const collator = new Intl.Collator("en");
 
 export const countries: { code: CountryCode; callingCode: string; name: string }[] = getCountries()
   .map((code) => ({
@@ -58,7 +63,10 @@ export const countries: { code: CountryCode; callingCode: string; name: string }
     callingCode: getCountryCallingCode(code),
     name: displayNames?.of(code) ?? code,
   }))
-  .sort((a, b) => a.name.localeCompare(b.name));
+  .sort((a, b) => collator.compare(a.name, b.name));
+
+/** Hydration-safe list (ISO code order, no names): identical on server and client. */
+export const countriesByCode = [...countries].sort((a, b) => (a.code < b.code ? -1 : a.code > b.code ? 1 : 0));
 
 /** Format while typing. A leading "+" lets the user type any international number. */
 export function formatPhone(input: string, country: CountryCode): PhoneResult {
@@ -72,6 +80,7 @@ export function formatPhone(input: string, country: CountryCode): PhoneResult {
     country: detected,
     e164: number?.number ?? null,
     international: number?.formatInternational() ?? null,
+    national: number?.nationalNumber ?? null,
     valid,
   };
 }

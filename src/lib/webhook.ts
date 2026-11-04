@@ -24,8 +24,34 @@ export async function forwardToWebhook(url: string, payload: unknown, timeoutMs 
 export const str = (v: unknown, max = 500) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** "@handle", "instagram.com/handle/" and "handle" all become "handle". */
+/** "@handle", "instagram.com/handle/" and "handle" all become "handle"; anything else becomes "". */
 export function normalizeInstagram(v: string): string {
-  const s = v.trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, "").replace(/^@/, "").replace(/[/?].*$/, "");
-  return s.slice(0, 60);
+  const s = v
+    .trim()
+    .replace(/^(https?:\/\/)?(www\.|m\.)?instagram\.com\//i, "")
+    .replace(/^@/, "")
+    .replace(/[/?#].*$/, "");
+  return /^[A-Za-z0-9._]{1,30}$/.test(s) ? s : "";
+}
+
+const UTM_KEY_RE = /^(utm_[a-z_]{1,30}|fbclid|gclid|ttclid|ref)$/i;
+
+/** Keep only the ad parameters we expect, bounded in count and size. */
+export function sanitizeUtm(u: unknown): Record<string, string> {
+  if (!u || typeof u !== "object" || Array.isArray(u)) return {};
+  return Object.fromEntries(
+    Object.entries(u as Record<string, unknown>)
+      .filter(([k]) => UTM_KEY_RE.test(k))
+      .slice(0, 20)
+      .map(([k, v]) => [k.toLowerCase(), str(v, 200)]),
+  );
+}
+
+/** Parse attacker-controlled JSON into a plain object, or {}. */
+export function parseObject(raw: string): Record<string, unknown> {
+  try {
+    const parsed: unknown = JSON.parse(raw || "{}");
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed as Record<string, unknown>;
+  } catch {}
+  return {};
 }

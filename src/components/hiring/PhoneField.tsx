@@ -1,7 +1,10 @@
 "use client";
 
-import { useId, useState } from "react";
-import { countries, formatPhone, type CountryCode, type PhoneResult } from "@/lib/phone";
+import { useId, useState, useSyncExternalStore } from "react";
+import { countries, countriesByCode, formatPhone, type CountryCode, type PhoneResult } from "@/lib/phone";
+
+const subscribeNoop = () => () => {};
+const useMounted = () => useSyncExternalStore(subscribeNoop, () => true, () => false);
 
 const digits = (s: string) => s.replace(/\D/g, "");
 
@@ -15,15 +18,18 @@ export function PhoneField({
   onChange,
   required = true,
   label = "Phone number",
+  error,
 }: {
   value: PhoneResult;
   onChange: (next: PhoneResult) => void;
   required?: boolean;
   label?: string;
+  error?: string;
 }) {
   const id = useId();
+  const mounted = useMounted();
   const [touched, setTouched] = useState(false);
-  const showError = touched && value.text.length > 0 && !value.valid;
+  const invalid = Boolean(error) || (touched && value.text.length > 0 && !value.valid);
   const current = countries.find((c) => c.code === value.country);
 
   const handleText = (raw: string) => {
@@ -34,9 +40,18 @@ export function PhoneField({
   };
 
   const handleCountry = (code: CountryCode) => {
-    const national = value.text.startsWith("+") ? value.e164?.replace(/^\+\d+/, "") ?? "" : value.text;
+    // Keep the national part of whatever was typed; an international number keeps its digits.
+    const national = value.text.startsWith("+") ? (value.national ?? digits(value.text)) : value.text;
     onChange(formatPhone(national, code));
   };
+
+  const hint = error
+    ? error
+    : value.valid && value.international
+      ? `Saved as ${value.international}`
+      : invalid
+        ? `That doesn't look like a valid number for ${current?.name ?? value.country}. Type it with a + if it's from another country.`
+        : `Type your local number for ${current?.name ?? value.country}; we add the country code.`;
 
   return (
     <div>
@@ -44,19 +59,28 @@ export function PhoneField({
         {label}
         {required && <span className="text-flare"> *</span>}
       </label>
-      <div className="mt-2 flex items-end gap-3 border-b border-line transition-colors focus-within:border-flare">
-        <select
-          aria-label="Country"
-          value={value.country}
-          onChange={(e) => handleCountry(e.target.value as CountryCode)}
-          className="w-[7.5rem] shrink-0 bg-transparent py-3 text-base text-bone outline-none"
-        >
-          {countries.map((c) => (
-            <option key={c.code} value={c.code} className="bg-ink text-bone">
-              {c.code} +{c.callingCode}
-            </option>
-          ))}
-        </select>
+      <div className={`mt-2 flex items-end gap-3 border-b transition-colors focus-within:border-flare ${invalid ? "border-flare/60" : "border-line"}`}>
+        {/* Visible: "LB +961". The real select (with full country names) sits on top, transparent. */}
+        <div className="relative w-[7.5rem] shrink-0">
+          <span aria-hidden className="flex items-center gap-1 py-3 text-base text-bone">
+            {value.country} +{current?.callingCode}
+            <svg viewBox="0 0 12 12" className="ml-auto size-3 text-bone/60" aria-hidden>
+              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+          </span>
+          <select
+            aria-label="Country"
+            value={value.country}
+            onChange={(e) => handleCountry(e.target.value as CountryCode)}
+            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          >
+            {(mounted ? countries : countriesByCode).map((c) => (
+              <option key={c.code} value={c.code}>
+                {mounted ? `${c.name} (+${c.callingCode})` : `${c.code} (+${c.callingCode})`}
+              </option>
+            ))}
+          </select>
+        </div>
         <input
           id={id}
           type="tel"
@@ -67,17 +91,13 @@ export function PhoneField({
           onChange={(e) => handleText(e.target.value)}
           onBlur={() => setTouched(true)}
           placeholder={value.country === "LB" ? "71 097 342" : "Your number"}
-          aria-invalid={showError}
+          aria-invalid={invalid}
           aria-describedby={`${id}-hint`}
-          className="w-full bg-transparent py-3 text-lg outline-none placeholder:text-bone/25"
+          className="w-full bg-transparent py-3 text-lg outline-none placeholder:text-bone/50"
         />
       </div>
-      <p id={`${id}-hint`} className={`mt-2 text-xs ${showError ? "text-flare" : "text-bone/50"}`} aria-live="polite">
-        {value.valid && value.international
-          ? `Saved as ${value.international}`
-          : showError
-            ? `That doesn't look like a valid number for ${current?.name ?? value.country}. Type it with a + if it's from another country.`
-            : `Type your local number for ${current?.name ?? value.country}; we add the country code.`}
+      <p id={`${id}-hint`} className={`mt-2 text-xs ${invalid ? "text-flare" : "text-bone/60"}`} aria-live="polite">
+        {hint}
       </p>
     </div>
   );

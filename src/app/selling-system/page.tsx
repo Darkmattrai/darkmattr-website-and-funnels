@@ -20,7 +20,7 @@ function HiringNav() {
           <LogoMark className="size-6 transition-transform duration-700 group-hover:rotate-[200deg]" />
           Dark Mattr <span className="hidden font-normal text-bone/50 sm:inline">· The Selling System</span>
         </Link>
-        <a href="#apply" className="flex items-center gap-2 rounded-full bg-bone px-4 py-2 text-[0.85rem] font-medium text-void transition-colors hover:bg-flare">
+        <a href="#apply" className="flex min-h-11 items-center gap-2 rounded-full bg-bone px-4 py-2 text-[0.85rem] font-medium text-void transition-colors hover:bg-flare">
           <span className="pulse-dot size-1.5 rounded-full bg-green-500" />
           Apply now
         </a>
@@ -104,7 +104,7 @@ export default function SellingSystemHiring() {
                 </ul>
                 <div className="mt-8 flex items-center justify-between border-t border-line pt-5">
                   <span className="text-sm text-bone/60">{r.comp}</span>
-                  <a href="#apply" className="text-sm font-medium underline-offset-4 hover:underline">
+                  <a href="#apply" className="-my-3 -mr-3 py-3 pr-3 pl-3 text-sm font-medium underline-offset-4 hover:underline">
                     Apply →
                   </a>
                 </div>
@@ -188,7 +188,7 @@ export default function SellingSystemHiring() {
           </dl>
         </section>
       </main>
-      <footer className="container-x flex flex-wrap items-center justify-between gap-4 border-t border-line py-6 text-sm text-bone/45">
+      <footer className="container-x flex flex-wrap items-center justify-between gap-4 border-t border-line py-6 text-sm text-bone/55">
         <span>© {new Date().getFullYear()} {site.name} · The Selling System</span>
         <a href={`mailto:${site.email}`} className="hover:text-bone">
           {site.email}

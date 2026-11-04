@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Instrument_Serif, JetBrains_Mono } from "next/font/google";
-import { Cursor } from "@/components/Cursor";
-import { Preloader } from "@/components/Preloader";
+import { MotionConfig } from "motion/react";
+import { SiteChrome } from "@/components/SiteChrome";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -48,10 +48,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${bricolage.variable} ${instrument.variable} ${jetbrains.variable}`}>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        <SmoothScroll />
-        <Preloader />
-        <Cursor />
-        {children}
+        <MotionConfig reducedMotion="user">
+          <SmoothScroll />
+          <SiteChrome />
+          {children}
+        </MotionConfig>
         <div className="grain" aria-hidden />
       </body>
     </html>

@@ -8,6 +8,10 @@
  * ─────────────────────────────────────────────────────────────
  */
 
+export const MAX_ANSWER_CHARS = 4000;
+export const MAX_RESUME_MB = 4; // Vercel rejects bodies over 4.5 MB before our code runs
+export const RESUME_RETENTION_DAYS = 90;
+
 export const hiring = {
   brand: "The Selling System",
   // PLACEHOLDER: confirm what The Selling System is in one line.
@@ -16,7 +20,7 @@ export const hiring = {
   eyebrow: "The Selling System · Hiring now · Remote",
   headline: { lineOne: "You sell.", lineTwo: "We bring the buyers." },
   sub: "Three seats open: DM/Phone Setter, Closer and Outbound Sales Specialist. If you can hold a conversation and close a loop, we want to hear from you.",
-  primaryCta: "Apply in 3 minutes",
+  primaryCta: "Start your application",
   secondaryCta: "See the roles",
   proof: [
     // PLACEHOLDER: replace with real, verifiable numbers.
@@ -118,49 +122,50 @@ export const questions: Question[] = [
     kind: "text",
     multiline: true,
     title: "How many years of experience do you have in the sales industry, and in what specific position?",
-    placeholder: "e.g. 3 years: 1 as an SDR at a SaaS company, 2 closing high-ticket coaching offers",
+    help: "For example: 3 years, 1 as an SDR at a SaaS company, 2 closing high-ticket coaching offers.",
   },
   {
     id: "training",
     kind: "text",
     multiline: true,
     title: "Have you taken any form of sales training? If yes, who were your mentors?",
-    placeholder: "Programs, courses, people who trained you",
+    help: "Programs, courses, the people who trained you.",
   },
   {
     id: "objection",
     kind: "text",
     multiline: true,
     title: "Mention the most common objection you face, and how you handle it.",
-    placeholder: "The objection, then exactly what you say",
+    help: "The objection, then exactly what you say.",
   },
   {
     id: "closingRate",
     kind: "text",
     title: "What is your average closing rate based on your sales career history?",
-    placeholder: "e.g. 28% on booked calls",
+    help: "For example: 28% on booked calls.",
+    placeholder: "Your closing rate",
   },
   {
     id: "characteristics",
     kind: "text",
     multiline: true,
     title: "Name 3 of your main characteristics that make you a good sales person.",
-    placeholder: "Three, with a line on each",
+    help: "Three, with a line on each.",
   },
   {
     id: "bestOffer",
     kind: "text",
     multiline: true,
     title: "In what offer did you best perform, and why?",
-    placeholder: "The offer, the numbers, and what made it work",
+    help: "The offer, the numbers, and what made it work.",
   },
   {
     id: "resume",
     kind: "file",
     title: "Please upload your resume.",
-    help: "PDF or Word, up to 5 MB.",
+    help: "PDF or Word, up to 4 MB.",
     accept: ".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    maxMB: 5,
+    maxMB: MAX_RESUME_MB,
   },
 ];
 
@@ -168,6 +173,7 @@ export const confirmStep = {
   title: "Please confirm your information",
   sub: "We use it to map your answers to your profile. Edit anything that's changed.",
   button: "Submit my application",
+  retention: "We keep your resume for 90 days to run this hiring round, then delete it.",
 };
 
 export const success = {
