@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import { MotionConfig } from "motion/react";
 import { SiteChrome } from "@/components/SiteChrome";
 import { SmoothScroll } from "@/components/SmoothScroll";
@@ -55,6 +56,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </MotionConfig>
         <div className="grain" aria-hidden />
+        <Script
+          src="https://app.darkmattr.co/js/external-tracking.js"
+          data-tracking-id="tk_c03f5629a3464c0aab4d8ae90c632d98"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
