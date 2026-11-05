@@ -75,7 +75,7 @@ export const roles: Role[] = [
 export const stepOne = {
   title: "Start your application",
   sub: "Four details, then the survey. We'll use them to map your answers to your profile.",
-  button: "Continue to the survey",
+  button: "Continue to the application",
 };
 
 export type Question =
