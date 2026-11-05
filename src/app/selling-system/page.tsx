@@ -61,7 +61,6 @@ export default function SellingSystemHiring() {
                 {hiring.seats}
               </p>
             </div>
-            <p className="mt-5 max-w-[40rem] text-sm text-bone/55">{hiring.riskReversal}</p>
           </FadeUp>
         </div>
       </main>
