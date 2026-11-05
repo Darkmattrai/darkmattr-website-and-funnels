@@ -16,7 +16,6 @@ export default function ApplyPage() {
       <header className="container-x relative flex h-16 items-center justify-between md:h-20">
         <Link href="/selling-system" className="flex items-center gap-2.5 text-[0.95rem] tracking-tight">
           <BrandLogo priority className="h-5 w-auto md:h-6" />
-          <span className="hidden text-bone/50 sm:inline">· The Selling System</span>
         </Link>
         <span className="label">Step 2 of 2 · Survey</span>
       </header>

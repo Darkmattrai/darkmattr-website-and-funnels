@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ApplyModal } from "@/components/hiring/ApplyModal";
 import { BrandLogo } from "@/components/hiring/BrandLogo";
-import { FadeUp, RevealText, SectionLabel } from "@/components/Reveal";
+import { FadeUp, RevealText } from "@/components/Reveal";
 import { hiring } from "@/content/hiring";
 import { site } from "@/content/site";
 
@@ -28,14 +28,12 @@ export default function SellingSystemHiring() {
       <header className="container-x relative z-10 flex h-16 items-center justify-between md:h-20">
         <a href={site.url} className="flex items-center gap-2.5 text-[0.95rem] tracking-tight">
           <BrandLogo priority className="h-5 w-auto md:h-6" />
-          <span className="hidden text-bone/50 sm:inline">· {hiring.brand}</span>
         </a>
       </header>
 
       <main className="container-x relative z-10 flex flex-1 items-center py-6 md:py-8">
         <div className="w-full max-w-[64rem]">
-          <SectionLabel>{hiring.eyebrow}</SectionLabel>
-          <h1 className="display mt-6 text-[clamp(2.4rem,5.6vw,5.75rem)] !leading-[0.98] md:mt-8">
+          <h1 className="display text-[clamp(2.4rem,5.6vw,5.75rem)] !leading-[0.98]">
             <RevealText text={hiring.headline.lineOne} as="span" className="block" accent={[hiring.headline.accent]} />
             <RevealText text={hiring.headline.lineTwo} as="span" className="block" delay={0.15} />
           </h1>
