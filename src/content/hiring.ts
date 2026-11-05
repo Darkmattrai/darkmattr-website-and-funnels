@@ -29,7 +29,6 @@ export const hiring = {
   ],
   primaryCta: "Claim your seat",
   seats: "3 seats open: Setter · Closer · Outbound",
-  riskReversal: "Takes 60 seconds to start. No CV until step 2. We reply within two business days.",
 };
 
 export type Role = {
