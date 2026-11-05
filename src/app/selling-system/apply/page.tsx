@@ -5,7 +5,7 @@ import { BrandLogo } from "@/components/hiring/BrandLogo";
 
 export const metadata: Metadata = {
   title: "Application · The Selling System",
-  description: "Eight questions about how you sell, plus your resume.",
+  description: "Eight questions about how you sell, a Loom intro and your resume.",
   robots: { index: false },
 };
 

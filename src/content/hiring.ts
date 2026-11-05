@@ -81,8 +81,26 @@ export const stepOne = {
 
 export type Question =
   | { id: string; kind: "choice"; title: string; help?: string; options: string[] }
-  | { id: string; kind: "text"; title: string; help?: string; placeholder?: string; multiline?: boolean }
+  | { id: string; kind: "text"; title: string; help?: string; placeholder?: string; multiline?: boolean; format?: "loom"; formatError?: string }
   | { id: string; kind: "file"; title: string; help?: string; accept: string; maxMB: number };
+
+/** A Loom share link: https://www.loom.com/share/<id> (or loom.com/..., www optional). */
+export const LOOM_RE = /^(https?:\/\/)?(www\.)?loom\.com\/[^\s]+$/i;
+
+/** Normalises a Loom link to https://..., or "" if it isn't one. */
+export function normalizeLoomUrl(v: string): string {
+  const t = v.trim();
+  if (!LOOM_RE.test(t)) return "";
+  return /^https?:\/\//i.test(t) ? t.replace(/^http:/i, "https:") : `https://${t}`;
+}
+
+/** Whether an answer is complete and in the right format for its question. */
+export function isAnswerValid(q: Question, v: string | undefined): boolean {
+  const t = (v ?? "").trim();
+  if (!t) return false;
+  if (q.kind === "text" && q.format === "loom") return Boolean(normalizeLoomUrl(t));
+  return true;
+}
 
 /** Step 2: the survey, one question at a time. */
 export const questions: Question[] = [
@@ -133,6 +151,15 @@ export const questions: Question[] = [
     multiline: true,
     title: "In what offer did you best perform, and why?",
     help: "The offer, the numbers, and what made it work.",
+  },
+  {
+    id: "loomUrl",
+    kind: "text",
+    format: "loom",
+    title: "Sell us the best product you know: you. Paste a Loom link where you introduce yourself, your skill set and your biggest wins.",
+    help: "2–3 minutes, camera on. Who you are, how you sell, and the results you're proudest of. Record free at loom.com, then paste the share link (https://www.loom.com/share/...).",
+    placeholder: "https://www.loom.com/share/...",
+    formatError: "Please paste a Loom link, like https://www.loom.com/share/...",
   },
   {
     id: "resume",
