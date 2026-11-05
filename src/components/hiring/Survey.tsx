@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState, useSyncExternalStore, type FormEvent, type KeyboardEvent } from "react";
-import { MAX_ANSWER_CHARS, confirmStep, questions, success, type Question } from "@/content/hiring";
+import { MAX_ANSWER_CHARS, confirmStep, isAnswerValid, questions, success, type Question } from "@/content/hiring";
 import { site } from "@/content/site";
 import { formatPhone, type PhoneResult } from "@/lib/phone";
 import { EMAIL_RE } from "@/lib/webhook";
@@ -40,7 +40,7 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
   const [index, setIndex] = useState(() => {
     // resume where they left off
     const saved = loadAnswers();
-    const firstUnanswered = questions.findIndex((q) => q.kind !== "file" && !(saved[q.id] ?? "").trim());
+    const firstUnanswered = questions.findIndex((q) => q.kind !== "file" && !isAnswerValid(q, saved[q.id]));
     return firstUnanswered === -1 ? questions.length - 1 : firstUnanswered;
   });
   const [file, setFile] = useState<File | null>(null);
@@ -71,7 +71,7 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
   const canContinue = (() => {
     if (!q) return true;
     if (q.kind === "file") return Boolean(file) && !fileError;
-    return (answers[q.id] ?? "").trim().length > 0;
+    return isAnswerValid(q, answers[q.id]);
   })();
 
   const confirmValid =
@@ -329,6 +329,8 @@ function TextQuestion({
     e.preventDefault();
     onEnter();
   };
+  const formatError = q.format && value.trim() && !isAnswerValid(q, value) ? q.formatError || "Please check this answer." : "";
+  const describedBy = [q.help ? `${q.id}-help` : "", formatError ? `${q.id}-error` : ""].filter(Boolean).join(" ") || undefined;
   const cls = "mt-8 w-full border-b border-line bg-transparent py-3 text-lg outline-none transition-colors placeholder:text-bone/50 focus:border-flare";
   return (
     <div>
@@ -357,16 +359,27 @@ function TextQuestion({
       ) : (
         <input
           id={q.id}
-          type="text"
+          type={q.format === "loom" ? "url" : "text"}
+          inputMode={q.format === "loom" ? "url" : undefined}
+          autoComplete={q.format === "loom" ? "url" : undefined}
+          autoCapitalize={q.format === "loom" ? "none" : undefined}
+          spellCheck={q.format === "loom" ? false : undefined}
           autoFocus
+          required
           maxLength={MAX_ANSWER_CHARS}
-          aria-describedby={q.help ? `${q.id}-help` : undefined}
+          aria-invalid={Boolean(formatError)}
+          aria-describedby={describedBy}
           value={value}
           placeholder={q.placeholder}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKey}
           className={cls}
         />
+      )}
+      {formatError && (
+        <p id={`${q.id}-error`} role="alert" className="mt-2 text-sm text-flare">
+          {formatError}
+        </p>
       )}
     </div>
   );

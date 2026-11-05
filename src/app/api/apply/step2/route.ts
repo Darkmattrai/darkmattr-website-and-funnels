@@ -1,6 +1,6 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
-import { MAX_ANSWER_CHARS, MAX_RESUME_MB, questions, roles } from "@/content/hiring";
+import { MAX_ANSWER_CHARS, MAX_RESUME_MB, normalizeLoomUrl, questions, roles } from "@/content/hiring";
 import { normalizePhone } from "@/lib/phone";
 import { APPLICANT_TAGS, EMAIL_RE, forwardToWebhook, normalizeInstagram, parseObject, sanitizeUtm, str } from "@/lib/webhook";
 
@@ -48,6 +48,12 @@ export async function POST(req: Request) {
     const v = str(raw[q.id], MAX_ANSWER_CHARS);
     if (!v) return NextResponse.json({ error: `Please answer: ${q.title}` }, { status: 422 });
     if (q.kind === "choice" && !q.options.includes(v)) return NextResponse.json({ error: `Please pick one of the options for: ${q.title}` }, { status: 422 });
+    if (q.kind === "text" && q.format === "loom") {
+      const url = normalizeLoomUrl(v);
+      if (!url) return NextResponse.json({ error: q.formatError || "Please add a valid Loom link." }, { status: 422 });
+      answers[q.id] = url;
+      continue;
+    }
     answers[q.id] = v;
   }
 
@@ -95,6 +101,7 @@ export async function POST(req: Request) {
     closingRate: answers.closingRate,
     characteristics: answers.characteristics,
     bestOffer: answers.bestOffer,
+    loomUrl: answers.loomUrl,
     resumeUrl,
     resumeFileName: resume.name.slice(0, 120),
     resumeMimeType: resume.type,
