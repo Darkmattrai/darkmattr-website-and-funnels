@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Survey } from "@/components/hiring/Survey";
+import { questions } from "@/content/hiring";
 import { BrandLogo } from "@/components/hiring/BrandLogo";
 
 export const metadata: Metadata = {
   title: "Application · The Selling System",
-  description: "Eight questions about how you sell, a Loom intro and your resume.",
+  description: `${questions.length} short questions about how you sell, one at a time.`,
   robots: { index: false },
 };
 
