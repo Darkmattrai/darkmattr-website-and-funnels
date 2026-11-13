@@ -9,7 +9,7 @@
  */
 
 export const MAX_ANSWER_CHARS = 4000;
-export const MAX_RESUME_MB = 4; // Vercel rejects bodies over 4.5 MB before our code runs
+/** Resumes stored before the upload field was removed are purged after this many days (/api/cron/purge-resumes). */
 export const RESUME_RETENTION_DAYS = 90;
 
 export const hiring = {
@@ -80,25 +80,11 @@ export const stepOne = {
 
 export type Question =
   | { id: string; kind: "choice"; title: string; help?: string; options: string[] }
-  | { id: string; kind: "text"; title: string; help?: string; placeholder?: string; multiline?: boolean; format?: "loom"; formatError?: string }
-  | { id: string; kind: "file"; title: string; help?: string; accept: string; maxMB: number };
+  | { id: string; kind: "text"; title: string; help?: string; placeholder?: string; multiline?: boolean };
 
-/** A Loom share link: https://www.loom.com/share/<id> (or loom.com/..., www optional). */
-export const LOOM_RE = /^(https?:\/\/)?(www\.)?loom\.com\/[^\s]+$/i;
-
-/** Normalises a Loom link to https://..., or "" if it isn't one. */
-export function normalizeLoomUrl(v: string): string {
-  const t = v.trim();
-  if (!LOOM_RE.test(t)) return "";
-  return /^https?:\/\//i.test(t) ? t.replace(/^http:/i, "https:") : `https://${t}`;
-}
-
-/** Whether an answer is complete and in the right format for its question. */
-export function isAnswerValid(q: Question, v: string | undefined): boolean {
-  const t = (v ?? "").trim();
-  if (!t) return false;
-  if (q.kind === "text" && q.format === "loom") return Boolean(normalizeLoomUrl(t));
-  return true;
+/** Whether a question has an answer. */
+export function isAnswerValid(v: string | undefined): boolean {
+  return Boolean((v ?? "").trim());
 }
 
 /** Step 2: the survey, one question at a time. */
@@ -151,30 +137,12 @@ export const questions: Question[] = [
     title: "In what offer did you best perform, and why?",
     help: "The offer, the numbers, and what made it work.",
   },
-  {
-    id: "loomUrl",
-    kind: "text",
-    format: "loom",
-    title: "Sell us the best product you know: you. Paste a Loom link where you introduce yourself, your skill set and your biggest wins.",
-    help: "2–3 minutes, camera on. Who you are, how you sell, and the results you're proudest of. Record free at loom.com, then paste the share link (https://www.loom.com/share/...).",
-    placeholder: "https://www.loom.com/share/...",
-    formatError: "Please paste a Loom link, like https://www.loom.com/share/...",
-  },
-  {
-    id: "resume",
-    kind: "file",
-    title: "Please upload your resume.",
-    help: "PDF or Word, up to 4 MB.",
-    accept: ".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    maxMB: MAX_RESUME_MB,
-  },
 ];
 
 export const confirmStep = {
   title: "Please confirm your information",
   sub: "We use it to map your answers to your profile. Edit anything that's changed.",
   button: "Submit my application",
-  retention: "We keep your resume for 90 days to run this hiring round, then delete it.",
 };
 
 export const success = {

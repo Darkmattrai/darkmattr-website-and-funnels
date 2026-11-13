@@ -38,13 +38,11 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
   const total = questions.length;
   const [answers, setAnswers] = useState<Record<string, string>>(() => loadAnswers());
   const [index, setIndex] = useState(() => {
-    // resume where they left off
+    // pick up where they left off
     const saved = loadAnswers();
-    const firstUnanswered = questions.findIndex((q) => q.kind !== "file" && !isAnswerValid(q, saved[q.id]));
+    const firstUnanswered = questions.findIndex((q) => !isAnswerValid(saved[q.id]));
     return firstUnanswered === -1 ? questions.length - 1 : firstUnanswered;
   });
-  const [file, setFile] = useState<File | null>(null);
-  const [fileError, setFileError] = useState("");
   const [direction, setDirection] = useState(1);
   const [confirmReady, setConfirmReady] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
@@ -68,14 +66,10 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
     saveAnswers(next);
   };
 
-  const canContinue = (() => {
-    if (!q) return true;
-    if (q.kind === "file") return Boolean(file) && !fileError;
-    return isAnswerValid(q, answers[q.id]);
-  })();
+  const canContinue = !q || isAnswerValid(answers[q.id]);
 
   const confirmValid =
-    phone.valid && Boolean(file) && firstName.trim().length >= 2 && EMAIL_RE.test(email.trim()) && INSTAGRAM_RE.test(instagram.trim());
+    phone.valid && firstName.trim().length >= 2 && EMAIL_RE.test(email.trim()) && INSTAGRAM_RE.test(instagram.trim());
 
   const go = (dir: 1 | -1) => {
     setDirection(dir);
@@ -83,18 +77,9 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
     setIndex((i) => Math.max(0, Math.min(total, i + dir)));
   };
 
-  const pickFile = (f: File | null, spec: Extract<Question, { kind: "file" }>) => {
-    setFileError("");
-    if (!f) return setFile(null);
-    const okType = /\.(pdf|docx?)$/i.test(f.name);
-    if (!okType) return setFileError("Please upload a PDF or Word document.");
-    if (f.size > spec.maxMB * 1024 * 1024) return setFileError(`That file is over ${spec.maxMB} MB.`);
-    setFile(f);
-  };
-
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!atConfirm || !confirmReady || status === "sending" || !confirmValid || !file) return;
+    if (!atConfirm || !confirmReady || status === "sending" || !confirmValid) return;
     setStatus("sending");
     setError("");
     const confirmed: Applicant = { ...applicant, firstName: firstName.trim(), email: email.trim(), instagram: instagram.trim(), phone };
@@ -112,10 +97,8 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
     fd.set("stepOneAt", applicant.stepOneAt);
     fd.set("answers", JSON.stringify(answers));
     fd.set("fax", fax);
-    fd.set("resume", file);
     try {
       const res = await fetch("/api/apply/step2", { method: "POST", body: fd });
-      if (res.status === 413) throw new Error("Your resume is too large. Please upload a file under 4 MB.");
       if (res.status === 429) throw new Error("Too many attempts. Please try again in a minute.");
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error || "Something went wrong.");
@@ -215,42 +198,6 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
               <TextQuestion q={q} value={answers[q.id] ?? ""} onChange={(v) => setAnswer(q.id, v)} onEnter={() => canContinue && go(1)} />
             )}
 
-            {q && q.kind === "file" && (
-              <div>
-                <h2 ref={(el) => void (headingRef.current = el)} tabIndex={-1} className="text-2xl font-medium tracking-tight outline-none md:text-3xl">
-                  {q.title}
-                </h2>
-                {q.help && <p className="mt-2 text-bone/60">{q.help}</p>}
-                <label
-                  className={`mt-8 flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border border-dashed px-6 py-12 text-center transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-flare ${
-                    file ? "border-flare bg-flare/5" : "border-bone/30 hover:border-bone/60"
-                  }`}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    pickFile(e.dataTransfer.files?.[0] ?? null, q);
-                  }}
-                >
-                  <input type="file" accept={q.accept} className="sr-only" onChange={(e) => pickFile(e.target.files?.[0] ?? null, q)} />
-                  <span className="grid size-12 place-items-center rounded-full border border-line text-xl">↑</span>
-                  {file ? (
-                    <span className="text-lg">
-                      {file.name} <span className="text-bone/60">· {(file.size / 1024 / 1024).toFixed(1)} MB</span>
-                    </span>
-                  ) : (
-                    <span className="text-lg">
-                      Drop your resume here or <span className="underline underline-offset-4">browse</span>
-                    </span>
-                  )}
-                </label>
-                {fileError && (
-                  <p role="alert" className="mt-3 text-sm text-flare">
-                    {fileError}
-                  </p>
-                )}
-              </div>
-            )}
-
             {atConfirm && (
               <div>
                 <h2 ref={(el) => void (headingRef.current = el)} tabIndex={-1} className="text-2xl font-medium tracking-tight outline-none md:text-3xl">
@@ -268,7 +215,6 @@ function Steps({ applicant, onApplicantChange }: { applicant: Applicant; onAppli
                   </div>
                   <input type="text" name="fax" tabIndex={-1} autoComplete="off" value={fax} onChange={(e) => setFax(e.target.value)} className="absolute -left-[9999px] h-0 w-0 opacity-0" aria-hidden />
                 </div>
-                <p className="mt-6 text-xs text-bone/60">{confirmStep.retention}</p>
               </div>
             )}
           </motion.div>
@@ -329,8 +275,6 @@ function TextQuestion({
     e.preventDefault();
     onEnter();
   };
-  const formatError = q.format && value.trim() && !isAnswerValid(q, value) ? q.formatError || "Please check this answer." : "";
-  const describedBy = [q.help ? `${q.id}-help` : "", formatError ? `${q.id}-error` : ""].filter(Boolean).join(" ") || undefined;
   const cls = "mt-8 w-full border-b border-line bg-transparent py-3 text-lg outline-none transition-colors placeholder:text-bone/50 focus:border-flare";
   return (
     <div>
@@ -359,27 +303,17 @@ function TextQuestion({
       ) : (
         <input
           id={q.id}
-          type={q.format === "loom" ? "url" : "text"}
-          inputMode={q.format === "loom" ? "url" : undefined}
-          autoComplete={q.format === "loom" ? "url" : undefined}
-          autoCapitalize={q.format === "loom" ? "none" : undefined}
-          spellCheck={q.format === "loom" ? false : undefined}
+          type="text"
           autoFocus
           required
           maxLength={MAX_ANSWER_CHARS}
-          aria-invalid={Boolean(formatError)}
-          aria-describedby={describedBy}
+          aria-describedby={q.help ? `${q.id}-help` : undefined}
           value={value}
           placeholder={q.placeholder}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKey}
           className={cls}
         />
-      )}
-      {formatError && (
-        <p id={`${q.id}-error`} role="alert" className="mt-2 text-sm text-flare">
-          {formatError}
-        </p>
       )}
     </div>
   );
